@@ -23,7 +23,7 @@ void handle_event(MLV_Image *image, Quadtree **quadtree) {
             snprintf(file_path, sizeof(file_path), "img/output/quadtree.bin");
             FILE *file = fopen(file_path, "wb");
             if (file) {
-                save_quadtree_binary(file, *quadtree);
+                save_quadtree_binary_rgba(file, *quadtree);
                 fclose(file);
                 printf("Quadtree saved to %s\n", file_path);
             } else {
@@ -52,7 +52,25 @@ void handle_event(MLV_Image *image, Quadtree **quadtree) {
         } else {
             printf("Failed to open file for loading.\n");
         }
+    } else if (x >= 10 && x <= 110 && y >= 190 && y <= 240) {
+        printf("Loading quadtree from binary file...\n");
+        snprintf(file_path, sizeof(file_path), "img/output/quadtree.bin");
+        FILE *file = fopen(file_path, "rb");
+        if (file) {
+            *quadtree = load_quadtree_binary_rgba(file, 0);
+            fclose(file);
+            if (*quadtree != NULL) {
+                MLV_clear_window(MLV_COLOR_BLACK);
+                draw_quadtree(*quadtree, 0, 0, IMAGE_SIZE);
+                MLV_actualise_window();
+                MLV_wait_seconds(2);
+                draw_menu();
+                printf("Quadtree loaded from %s\n", file_path);
+            } else {
+                printf("Failed to load quadtree from binary file.\n");
+            }
+        } else {
+            printf("Failed to open file for loading.\n");
+        }
     }
 }
-
-

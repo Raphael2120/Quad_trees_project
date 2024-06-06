@@ -8,6 +8,8 @@ void draw_menu() {
     MLV_draw_text(20, 85, "Save Binary", MLV_COLOR_BLACK);
     MLV_draw_filled_rectangle(10, 130, 100, 50, MLV_COLOR_RED);
     MLV_draw_text(20, 145, "Load Binary", MLV_COLOR_BLACK);
+    MLV_draw_filled_rectangle(10, 190, 100, 50, MLV_COLOR_RED);
+    MLV_draw_text(20, 205, "Bin on RGBA", MLV_COLOR_BLACK);
     MLV_actualise_window();
 }
 
