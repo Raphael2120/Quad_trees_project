@@ -4,7 +4,7 @@
 #include <MLV/MLV_all.h>
 
 #define IMAGE_SIZE 512
-#define MAX_DEPTH 5
+#define MAX_DEPTH 7
 
 typedef struct Quadtree {
     int is_leaf;
@@ -13,7 +13,7 @@ typedef struct Quadtree {
 } Quadtree;
 
 MLV_Color average_color(MLV_Image *image, int x, int y, int size);
-Quadtree* build_quadtree(MLV_Image *image, int x, int y, int size, int depth);
+Quadtree* build_quadtree(MLV_Image *image, int x, int y, int size, int depth, int max_depth);
 void free_quadtree(Quadtree *node);
 void save_quadtree_binary(FILE *file, Quadtree *node);
 void save_quadtree_binary_rgba(FILE *file, Quadtree *node);

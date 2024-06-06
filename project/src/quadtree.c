@@ -19,19 +19,40 @@ MLV_Color average_color(MLV_Image *image, int x, int y, int size) {
     return MLV_rgba(r / count, g / count, b / count, a / count);
 }
 
-Quadtree* build_quadtree(MLV_Image *image, int x, int y, int size, int depth) {
-    if (depth > MAX_DEPTH) return NULL;
+// Quadtree* build_quadtree(MLV_Image *image, int x, int y, int size, int depth) {
+//     if (depth > MAX_DEPTH) return NULL;
+
+//     Quadtree *node = (Quadtree*)malloc(sizeof(Quadtree));
+//     node->color = average_color(image, x, y, size);
+//     node->is_leaf = (size <= 1) || (depth >= MAX_DEPTH);
+
+//     if (!node->is_leaf) {
+//         int half_size = size / 2;
+//         node->children[0] = build_quadtree(image, x, y, half_size, depth + 1);
+//         node->children[1] = build_quadtree(image, x + half_size, y, half_size, depth + 1);
+//         node->children[2] = build_quadtree(image, x, y + half_size, half_size, depth + 1);
+//         node->children[3] = build_quadtree(image, x + half_size, y + half_size, half_size, depth + 1);
+//     } else {
+//         for (int i = 0; i < 4; i++) {
+//             node->children[i] = NULL;
+//         }
+//     }
+//     return node;
+// }
+
+Quadtree* build_quadtree(MLV_Image *image, int x, int y, int size, int depth, int max_depth) {
+    if (depth > max_depth) return NULL;
 
     Quadtree *node = (Quadtree*)malloc(sizeof(Quadtree));
     node->color = average_color(image, x, y, size);
-    node->is_leaf = (size <= 1) || (depth >= MAX_DEPTH);
+    node->is_leaf = (size <= 1) || (depth >= max_depth);
 
     if (!node->is_leaf) {
         int half_size = size / 2;
-        node->children[0] = build_quadtree(image, x, y, half_size, depth + 1);
-        node->children[1] = build_quadtree(image, x + half_size, y, half_size, depth + 1);
-        node->children[2] = build_quadtree(image, x, y + half_size, half_size, depth + 1);
-        node->children[3] = build_quadtree(image, x + half_size, y + half_size, half_size, depth + 1);
+        node->children[0] = build_quadtree(image, x, y, half_size, depth + 1, max_depth);
+        node->children[1] = build_quadtree(image, x + half_size, y, half_size, depth + 1, max_depth);
+        node->children[2] = build_quadtree(image, x, y + half_size, half_size, depth + 1, max_depth);
+        node->children[3] = build_quadtree(image, x + half_size, y + half_size, half_size, depth + 1, max_depth);
     } else {
         for (int i = 0; i < 4; i++) {
             node->children[i] = NULL;
@@ -39,6 +60,7 @@ Quadtree* build_quadtree(MLV_Image *image, int x, int y, int size, int depth) {
     }
     return node;
 }
+
 
 void free_quadtree(Quadtree *node) {
     if (node == NULL) {
@@ -96,8 +118,6 @@ void save_quadtree_binary_rgba(FILE *file, Quadtree *node) {
         }
     }
 }
-
-
 
 Quadtree* load_quadtree_binary(FILE *file, int depth) {
     if (depth > MAX_DEPTH) return NULL;
