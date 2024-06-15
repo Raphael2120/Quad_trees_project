@@ -2,7 +2,21 @@
 #include <stdlib.h>
 #include <math.h>
 #include <MLV/MLV_all.h>
-#include "quadtree.h"
+
+#define IMAGE_SIZE 512
+
+typedef struct QuadtreeNode {
+    int x, y, size;
+    MLV_Color color;
+    double error;
+    struct QuadtreeNode *children[4];
+} QuadtreeNode;
+
+typedef struct {
+    QuadtreeNode** nodes;
+    int size;
+    int capacity;
+} MaxHeap;
 
 MaxHeap* create_max_heap(int capacity) {
     MaxHeap* heap = (MaxHeap*)malloc(sizeof(MaxHeap));
@@ -136,29 +150,69 @@ void free_quadtree(QuadtreeNode *node) {
     free(node);
 }
 
-double color_distance(MLV_Color c1, MLV_Color c2) {
-    Uint8 r1, g1, b1, a1;
-    Uint8 r2, g2, b2, a2;
-    MLV_convert_color_to_rgba(c1, &r1, &g1, &b1, &a1);
-    MLV_convert_color_to_rgba(c2, &r2, &g2, &b2, &a2);
-
-    return sqrt((r1 - r2) * (r1 - r2) +
-                (g1 - g2) * (g1 - g2) +
-                (b1 - b2) * (b1 - b2) +
-                (a1 - a2) * (a1 - a2));
+void draw_quadtree(QuadtreeNode *node) {
+    if (!node) return;
+    MLV_draw_filled_rectangle(node->x, node->y, node->size, node->size, node->color);
+    for (int i = 0; i < 4; i++) {
+        draw_quadtree(node->children[i]);
+    }
 }
 
-double quadtree_distance(QuadtreeNode* t1, QuadtreeNode* t2) {
-    if (t1 == NULL && t2 == NULL) return 0.0;
-    if (t1 == NULL || t2 == NULL) return INFINITY;
-    
-    if (t1->children[0] == NULL && t2->children[0] == NULL) {
-        return color_distance(t1->color, t2->color);
-    } else {
-        double distance = 0.0;
-        for (int i = 0; i < 4; i++) {
-            distance += quadtree_distance(t1->children[i], t2->children[i]);
+void draw_entire_quadtree(QuadtreeNode *node) {
+
+    draw_quadtree(node);
+    MLV_actualise_window();
+}
+
+void subdivide_and_draw(MLV_Image *image, MaxHeap* heap, int threshold) {
+    while (heap->size > 0) {
+        QuadtreeNode* node = extract_max(heap);
+        if (node->error < threshold || node->size <= 1) {
+            continue;
         }
-        return distance / 4.0;
+
+        int half_size = node->size / 2;
+
+        node->children[0] = build_quadtree(image, node->x, node->y, half_size, heap);
+        node->children[1] = build_quadtree(image, node->x + half_size, node->y, half_size, heap);
+        node->children[2] = build_quadtree(image, node->x, node->y + half_size, half_size, heap);
+        node->children[3] = build_quadtree(image, node->x + half_size, node->y + half_size, half_size, heap);
+
+        draw_entire_quadtree(node);
+        printf("Subdivided node at (%d, %d) with size %d\n", node->x, node->y, node->size);
+        MLV_wait_milliseconds(100); // Pause to visualize the steps
     }
+}
+
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        printf("Usage: %s <image_file>\n", argv[0]);
+        return 1;
+    }
+
+    MLV_create_window("Quadtree Image Approximation", NULL, IMAGE_SIZE, IMAGE_SIZE);
+
+    MLV_Image *image = MLV_load_image(argv[1]);
+    if (image == NULL) {
+        printf("Could not load image %s\n", argv[1]);
+        return 1;
+    }
+    MLV_resize_image(image, IMAGE_SIZE, IMAGE_SIZE);
+
+    MaxHeap* heap = create_max_heap(1024);
+    QuadtreeNode *quadtree = build_quadtree(image, 0, 0, IMAGE_SIZE, heap);
+
+    draw_entire_quadtree(quadtree);
+
+    subdivide_and_draw(image, heap, 1000);
+
+    MLV_wait_seconds(10);
+
+    free_quadtree(quadtree);
+    free(heap->nodes);
+    free(heap);
+    MLV_free_image(image);
+    MLV_free_window();
+
+    return 0;
 }
