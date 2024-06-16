@@ -271,6 +271,13 @@ void save_quadtree_binary(FILE *file, QuadtreeNode *node) {
     }
 }
 
+const char* get_file_extension(const char *filename) {
+    const char *dot = strrchr(filename, '.');
+    if(!dot || dot == filename) return "";
+    return dot + 1;
+}
+
+
 void save_image_quadtree(const char *filename, QuadtreeNode *quadtree) {
     FILE *file = fopen(filename, "wb");
     if (!file) {
@@ -386,29 +393,31 @@ QuadtreeNode* load_image_quadtree_bw(const char *filename) {
 }
 
 void draw_buttons() {
-    int button_width = 150;
+    int button_width = 300;
     int button_height = 30;
     int padding = 10;
     int x = padding;
     int y = padding;
 
-    MLV_draw_text_box(x, y, button_width, button_height, "Construct Quadtree", 1, MLV_COLOR_WHITE, MLV_COLOR_BLACK, MLV_COLOR_GRAY, MLV_TEXT_CENTER, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
+    MLV_draw_text_box(x, y, button_width, button_height, "NIVEAU 1: Construct Quadtree", 1, MLV_COLOR_WHITE, MLV_COLOR_BLACK, MLV_COLOR_GRAY, MLV_TEXT_CENTER, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
     y += button_height + padding;
-    MLV_draw_text_box(x, y, button_width, button_height, "Minimize Quadtree", 1, MLV_COLOR_WHITE, MLV_COLOR_BLACK, MLV_COLOR_GRAY, MLV_TEXT_CENTER, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
+    MLV_draw_text_box(x, y, button_width, button_height, "NIVEAU 2: Save as QTN (BW)", 1, MLV_COLOR_WHITE, MLV_COLOR_BLACK, MLV_COLOR_GRAY, MLV_TEXT_CENTER, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
     y += button_height + padding;
-    MLV_draw_text_box(x, y, button_width, button_height, "Save as QTN", 1, MLV_COLOR_WHITE, MLV_COLOR_BLACK, MLV_COLOR_GRAY, MLV_TEXT_CENTER, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
+    MLV_draw_text_box(x, y, button_width, button_height, "NIVEAU 2: Save as QTC (Color)", 1, MLV_COLOR_WHITE, MLV_COLOR_BLACK, MLV_COLOR_GRAY, MLV_TEXT_CENTER, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
     y += button_height + padding;
-    MLV_draw_text_box(x, y, button_width, button_height, "Save as QTC", 1, MLV_COLOR_WHITE, MLV_COLOR_BLACK, MLV_COLOR_GRAY, MLV_TEXT_CENTER, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
+    MLV_draw_text_box(x, y, button_width, button_height, "NIVEAU 3: Minimize Quadtree", 1, MLV_COLOR_WHITE, MLV_COLOR_BLACK, MLV_COLOR_GRAY, MLV_TEXT_CENTER, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
     y += button_height + padding;
-    MLV_draw_text_box(x, y, button_width, button_height, "Load QTN", 1, MLV_COLOR_WHITE, MLV_COLOR_BLACK, MLV_COLOR_GRAY, MLV_TEXT_CENTER, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
+    MLV_draw_text_box(x, y, button_width, button_height, "NIVEAU 3: Save Minimized QTN (BW)", 1, MLV_COLOR_WHITE, MLV_COLOR_BLACK, MLV_COLOR_GRAY, MLV_TEXT_CENTER, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
     y += button_height + padding;
-    MLV_draw_text_box(x, y, button_width, button_height, "Load QTC", 1, MLV_COLOR_WHITE, MLV_COLOR_BLACK, MLV_COLOR_GRAY, MLV_TEXT_CENTER, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
+    MLV_draw_text_box(x, y, button_width, button_height, "NIVEAU 3: Save Minimized QTC (Color)", 1, MLV_COLOR_WHITE, MLV_COLOR_BLACK, MLV_COLOR_GRAY, MLV_TEXT_CENTER, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
+    y += button_height + padding;
+    MLV_draw_text_box(x, y, button_width, button_height, "NIVEAU 3: Load Image", 1, MLV_COLOR_WHITE, MLV_COLOR_BLACK, MLV_COLOR_GRAY, MLV_TEXT_CENTER, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
 
     MLV_actualise_window();
 }
 
 int handle_button_click(int x, int y) {
-    int button_width = 150;
+    int button_width = 300;
     int button_height = 30;
     int padding = 10;
     int bx = padding;
@@ -416,15 +425,17 @@ int handle_button_click(int x, int y) {
 
     if (x > bx && x < bx + button_width && y > by && y < by + button_height) return 1; // Construct Quadtree
     by += button_height + padding;
-    if (x > bx && x < bx + button_width && y > by && y < by + button_height) return 2; // Minimize Quadtree
+    if (x > bx && x < bx + button_width && y > by && y < by + button_height) return 2; // Save as QTN (BW)
     by += button_height + padding;
-    if (x > bx && x < bx + button_width && y > by && y < by + button_height) return 3; // Save as QTN
+    if (x > bx && x < bx + button_width && y > by && y < by + button_height) return 3; // Save as QTC (Color)
     by += button_height + padding;
-    if (x > bx && x < bx + button_width && y > by && y < by + button_height) return 4; // Save as QTC
+    if (x > bx && x < bx + button_width && y > by && y < by + button_height) return 4; // Minimize Quadtree
     by += button_height + padding;
-    if (x > bx && x < bx + button_width && y > by && y < by + button_height) return 5; // Load QTN
+    if (x > bx && x < bx + button_width && y > by && y < by + button_height) return 5; // Save Minimized QTN (BW)
     by += button_height + padding;
-    if (x > bx && x < bx + button_width && y > by && y < by + button_height) return 6; // Load QTC
+    if (x > bx && x < bx + button_width && y > by && y < by + button_height) return 6; // Save Minimized QTC (Color)
+    by += button_height + padding;
+    if (x > bx && x < bx + button_width && y > by && y < by + button_height) return 7; // Load Image
 
     return 0;
 }
@@ -460,42 +471,68 @@ int main(int argc, char *argv[]) {
                 break;
             case 2:
                 if (quadtree) {
-                    draw_quadtree_with_loss(quadtree, image);
-                }
-                break;
-            case 3:
-                if (quadtree) {
                     char file_path[MAX_FILENAME_LENGTH];
                     snprintf(file_path, sizeof(file_path), "quadtree.qtn");
                     save_image_quadtree_bw(file_path, quadtree);
                 }
                 break;
-            case 4:
+            case 3:
                 if (quadtree) {
                     char file_path[MAX_FILENAME_LENGTH];
                     snprintf(file_path, sizeof(file_path), "quadtree.qtc");
                     save_image_quadtree(file_path, quadtree);
                 }
                 break;
+            case 4:
+                if (quadtree) {
+                    draw_quadtree_with_loss(quadtree, image);
+                }
+                break;
             case 5:
-                {
+                if (quadtree) {
                     char file_path[MAX_FILENAME_LENGTH];
-                    snprintf(file_path, sizeof(file_path), "quadtree.qtn");
-                    quadtree = load_image_quadtree_bw(file_path);
-                    if (quadtree) {
-                        MLV_clear_window(MLV_COLOR_BLACK);
-                        draw_entire_quadtree(quadtree);
-                    }
+                    snprintf(file_path, sizeof(file_path), "minimized_quadtree.qtn");
+                    save_image_quadtree_bw(file_path, quadtree);
                 }
                 break;
             case 6:
-                {
+                if (quadtree) {
                     char file_path[MAX_FILENAME_LENGTH];
-                    snprintf(file_path, sizeof(file_path), "quadtree.qtc");
-                    quadtree = load_image_quadtree(file_path);
-                    if (quadtree) {
-                        MLV_clear_window(MLV_COLOR_BLACK);
-                        draw_entire_quadtree(quadtree);
+                    snprintf(file_path, sizeof(file_path), "minimized_quadtree.qtc");
+                    save_image_quadtree(file_path, quadtree);
+                }
+                break;
+            case 7:
+                {
+                    char image_name[MAX_FILENAME_LENGTH];
+                    printf("Enter the image filename: ");
+                    scanf("%s", image_name);
+                    
+                    const char* ext = get_file_extension(image_name);
+
+                    if (strcmp(ext, "qtn") == 0) {
+                        quadtree = load_image_quadtree_bw(image_name);
+                        if (quadtree) {
+                            MLV_clear_window(MLV_COLOR_BLACK);
+                            draw_entire_quadtree(quadtree);
+                        }
+                    } else if (strcmp(ext, "qtc") == 0) {
+                        quadtree = load_image_quadtree(image_name);
+                        if (quadtree) {
+                            MLV_clear_window(MLV_COLOR_BLACK);
+                            draw_entire_quadtree(quadtree);
+                        }
+                    } else {
+                        MLV_Image *new_image = MLV_load_image(image_name);
+                        if (new_image) {
+                            MLV_resize_image(new_image, IMAGE_SIZE, IMAGE_SIZE);
+                            MLV_clear_window(MLV_COLOR_BLACK);
+                            MLV_draw_image(new_image, 0, 0);
+                            MLV_actualise_window();
+                            MLV_free_image(new_image);
+                        } else {
+                            printf("Could not load image %s\n", image_name);
+                        }
                     }
                 }
                 break;
