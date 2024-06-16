@@ -1,3 +1,7 @@
+/**
+ * @file controller.c
+ * @brief Main application controller for handling user interactions and quadtree operations.
+ */
 
 #include "../include/controller.h"
 #include "../include/quadtree.h"
@@ -7,6 +11,14 @@
 
 #define MAX_FILENAME_LENGTH 256
 
+/**
+ * @brief Runs the main application loop.
+ *
+ * This function initializes and runs the main application loop, handling
+ * user interactions and quadtree operations such as drawing, saving, and loading.
+ *
+ * @param image The image to be processed with the quadtree.
+ */
 void run_application(MLV_Image *image) {
     QuadtreeNode* quadtree = NULL;
 

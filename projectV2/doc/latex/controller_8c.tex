@@ -1,0 +1,63 @@
+\hypertarget{controller_8c}{}\doxysection{/home/ludo/\+Bureau/\+Project/\+PROG\+\_\+\+C/project\+V2/src/controller.c File Reference}
+\label{controller_8c}\index{/home/ludo/Bureau/Project/PROG\_C/projectV2/src/controller.c@{/home/ludo/Bureau/Project/PROG\_C/projectV2/src/controller.c}}
+
+
+Main application controller for handling user interactions and quadtree operations.  
+
+
+{\ttfamily \#include \char`\"{}../include/controller.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../include/quadtree.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../include/heap.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$MLV/\+MLV\+\_\+all.\+h$>$}\newline
+Include dependency graph for controller.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=296pt]{controller_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{controller_8c_a6773b93f3093658c3dcb569de3b4bdb2}{MAX\+\_\+\+FILENAME\+\_\+\+LENGTH}}~256
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{controller_8c_a46a3bca4e529b5f6cb172911d46217aa}{run\+\_\+application}} (MLV\+\_\+\+Image $\ast$image)
+\begin{DoxyCompactList}\small\item\em Runs the main application loop. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Main application controller for handling user interactions and quadtree operations. 
+
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{controller_8c_a6773b93f3093658c3dcb569de3b4bdb2}\label{controller_8c_a6773b93f3093658c3dcb569de3b4bdb2}} 
+\index{controller.c@{controller.c}!MAX\_FILENAME\_LENGTH@{MAX\_FILENAME\_LENGTH}}
+\index{MAX\_FILENAME\_LENGTH@{MAX\_FILENAME\_LENGTH}!controller.c@{controller.c}}
+\doxysubsubsection{\texorpdfstring{MAX\_FILENAME\_LENGTH}{MAX\_FILENAME\_LENGTH}}
+{\footnotesize\ttfamily \#define MAX\+\_\+\+FILENAME\+\_\+\+LENGTH~256}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{controller_8c_a46a3bca4e529b5f6cb172911d46217aa}\label{controller_8c_a46a3bca4e529b5f6cb172911d46217aa}} 
+\index{controller.c@{controller.c}!run\_application@{run\_application}}
+\index{run\_application@{run\_application}!controller.c@{controller.c}}
+\doxysubsubsection{\texorpdfstring{run\_application()}{run\_application()}}
+{\footnotesize\ttfamily void run\+\_\+application (\begin{DoxyParamCaption}\item[{MLV\+\_\+\+Image $\ast$}]{image }\end{DoxyParamCaption})}
+
+
+
+Runs the main application loop. 
+
+This function initializes and runs the main application loop, handling user interactions and quadtree operations such as drawing, saving, and loading.
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & The image to be processed with the quadtree. \\
+\hline
+\end{DoxyParams}

@@ -1,0 +1,116 @@
+\hypertarget{heap_8h}{}\doxysection{/home/ludo/\+Bureau/\+Project/\+PROG\+\_\+\+C/project\+V2/include/heap.h File Reference}
+\label{heap_8h}\index{/home/ludo/Bureau/Project/PROG\_C/projectV2/include/heap.h@{/home/ludo/Bureau/Project/PROG\_C/projectV2/include/heap.h}}
+{\ttfamily \#include \char`\"{}quadtree.\+h\char`\"{}}\newline
+Include dependency graph for heap.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=263pt]{heap_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{heap_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structMaxHeap}{Max\+Heap}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structMaxHeap}{Max\+Heap}} $\ast$ \mbox{\hyperlink{heap_8h_abaf8a77f5b2923d87f4931f102b385be}{create\+\_\+max\+\_\+heap}} (int capacity)
+\begin{DoxyCompactList}\small\item\em Creates a max-\/heap with a given capacity. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{heap_8h_a9860827486822c0b1b3f9f3927b630d8}{max\+\_\+heapify}} (\mbox{\hyperlink{structMaxHeap}{Max\+Heap}} $\ast$heap, int idx)
+\begin{DoxyCompactList}\small\item\em Ensures the max-\/heap property at a given index. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{heap_8h_a467e22e0527ba82269b661d876f89bf2}{insert\+\_\+max\+\_\+heap}} (\mbox{\hyperlink{structMaxHeap}{Max\+Heap}} $\ast$heap, \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$node)
+\begin{DoxyCompactList}\small\item\em Inserts a quadtree node into the max-\/heap. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$ \mbox{\hyperlink{heap_8h_acc81c280c8c4b65ac2d8f1740af29596}{extract\+\_\+max}} (\mbox{\hyperlink{structMaxHeap}{Max\+Heap}} $\ast$heap)
+\begin{DoxyCompactList}\small\item\em Extracts the maximum element from the max-\/heap. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{heap_8h_abaf8a77f5b2923d87f4931f102b385be}\label{heap_8h_abaf8a77f5b2923d87f4931f102b385be}} 
+\index{heap.h@{heap.h}!create\_max\_heap@{create\_max\_heap}}
+\index{create\_max\_heap@{create\_max\_heap}!heap.h@{heap.h}}
+\doxysubsubsection{\texorpdfstring{create\_max\_heap()}{create\_max\_heap()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structMaxHeap}{Max\+Heap}} $\ast$ create\+\_\+max\+\_\+heap (\begin{DoxyParamCaption}\item[{int}]{capacity }\end{DoxyParamCaption})}
+
+
+
+Creates a max-\/heap with a given capacity. 
+
+This function allocates memory for a max-\/heap and initializes its attributes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em capacity} & The initial capacity of the heap. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the newly created \mbox{\hyperlink{structMaxHeap}{Max\+Heap}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{heap_8h_acc81c280c8c4b65ac2d8f1740af29596}\label{heap_8h_acc81c280c8c4b65ac2d8f1740af29596}} 
+\index{heap.h@{heap.h}!extract\_max@{extract\_max}}
+\index{extract\_max@{extract\_max}!heap.h@{heap.h}}
+\doxysubsubsection{\texorpdfstring{extract\_max()}{extract\_max()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$ extract\+\_\+max (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structMaxHeap}{Max\+Heap}} $\ast$}]{heap }\end{DoxyParamCaption})}
+
+
+
+Extracts the maximum element from the max-\/heap. 
+
+This function removes and returns the root of the max-\/heap, which is the element with the highest error value, and then maintains the max-\/heap property.
+
+
+\begin{DoxyParams}{Parameters}
+{\em heap} & Pointer to the max-\/heap. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the extracted quadtree node, or NULL if the heap is empty. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{heap_8h_a467e22e0527ba82269b661d876f89bf2}\label{heap_8h_a467e22e0527ba82269b661d876f89bf2}} 
+\index{heap.h@{heap.h}!insert\_max\_heap@{insert\_max\_heap}}
+\index{insert\_max\_heap@{insert\_max\_heap}!heap.h@{heap.h}}
+\doxysubsubsection{\texorpdfstring{insert\_max\_heap()}{insert\_max\_heap()}}
+{\footnotesize\ttfamily void insert\+\_\+max\+\_\+heap (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structMaxHeap}{Max\+Heap}} $\ast$}]{heap,  }\item[{\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$}]{node }\end{DoxyParamCaption})}
+
+
+
+Inserts a quadtree node into the max-\/heap. 
+
+This function inserts a new quadtree node into the max-\/heap, expanding the heap\textquotesingle{}s capacity if necessary, and maintaining the max-\/heap property.
+
+
+\begin{DoxyParams}{Parameters}
+{\em heap} & Pointer to the max-\/heap. \\
+\hline
+{\em node} & Pointer to the quadtree node to be inserted. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{heap_8h_a9860827486822c0b1b3f9f3927b630d8}\label{heap_8h_a9860827486822c0b1b3f9f3927b630d8}} 
+\index{heap.h@{heap.h}!max\_heapify@{max\_heapify}}
+\index{max\_heapify@{max\_heapify}!heap.h@{heap.h}}
+\doxysubsubsection{\texorpdfstring{max\_heapify()}{max\_heapify()}}
+{\footnotesize\ttfamily void max\+\_\+heapify (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structMaxHeap}{Max\+Heap}} $\ast$}]{heap,  }\item[{int}]{idx }\end{DoxyParamCaption})}
+
+
+
+Ensures the max-\/heap property at a given index. 
+
+This function fixes the max-\/heap property violations at a specified index by comparing the node with its children and swapping if necessary.
+
+
+\begin{DoxyParams}{Parameters}
+{\em heap} & Pointer to the max-\/heap. \\
+\hline
+{\em idx} & The index to heapify. \\
+\hline
+\end{DoxyParams}

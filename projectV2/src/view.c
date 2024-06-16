@@ -1,7 +1,16 @@
+/**
+ * @file view.c
+ * @brief Implementation of functions for drawing and handling UI elements for quadtree operations.
+ */
 
 #include <MLV/MLV_all.h>
 #include "../include/view.h"
 
+/**
+ * @brief Recursively draws the quadtree nodes on the window.
+ *
+ * @param node The root node of the quadtree.
+ */
 void draw_quadtree(QuadtreeNode *node) {
     if (!node) return;
     MLV_draw_filled_rectangle(node->x, node->y, node->size, node->size, node->color);
@@ -10,11 +19,19 @@ void draw_quadtree(QuadtreeNode *node) {
     }
 }
 
+/**
+ * @brief Draws the entire quadtree and updates the window.
+ *
+ * @param node The root node of the quadtree.
+ */
 void draw_entire_quadtree(QuadtreeNode *node) {
     draw_quadtree(node);
     MLV_actualise_window();
 }
 
+/**
+ * @brief Draws the UI buttons for the application.
+ */
 void draw_buttons() {
     int button_width = 300;
     int button_height = 30;
@@ -42,6 +59,13 @@ void draw_buttons() {
     MLV_actualise_window();
 }
 
+/**
+ * @brief Handles button click events and determines which button was clicked.
+ *
+ * @param x The x-coordinate of the mouse click.
+ * @param y The y-coordinate of the mouse click.
+ * @return An integer representing the button clicked (1-7), or 0 if no button was clicked.
+ */
 int handle_button_click(int x, int y) {
     int button_width = 300;
     int button_height = 30;
@@ -69,24 +93,48 @@ int handle_button_click(int x, int y) {
     return 0;
 }
 
+/**
+ * @brief Retrieves the red component of a color.
+ *
+ * @param color The MLV color.
+ * @return The red component of the color.
+ */
 Uint8 MLV_get_red(MLV_Color color) {
     Uint8 r, g, b, a;
     MLV_convert_color_to_rgba(color, &r, &g, &b, &a);
     return r;
 }
 
+/**
+ * @brief Retrieves the green component of a color.
+ *
+ * @param color The MLV color.
+ * @return The green component of the color.
+ */
 Uint8 MLV_get_green(MLV_Color color) {
     Uint8 r, g, b, a;
     MLV_convert_color_to_rgba(color, &r, &g, &b, &a);
     return g;
 }
 
+/**
+ * @brief Retrieves the blue component of a color.
+ *
+ * @param color The MLV color.
+ * @return The blue component of the color.
+ */
 Uint8 MLV_get_blue(MLV_Color color) {
     Uint8 r, g, b, a;
     MLV_convert_color_to_rgba(color, &r, &g, &b, &a);
     return b;
 }
 
+/**
+ * @brief Retrieves the alpha component of a color.
+ *
+ * @param color The MLV color.
+ * @return The alpha component of the color.
+ */
 Uint8 MLV_get_alpha(MLV_Color color) {
     Uint8 r, g, b, a;
     MLV_convert_color_to_rgba(color, &r, &g, &b, &a);

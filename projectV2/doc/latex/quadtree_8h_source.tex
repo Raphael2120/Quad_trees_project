@@ -1,0 +1,57 @@
+\hypertarget{quadtree_8h_source}{}\doxysection{quadtree.\+h}
+\label{quadtree_8h_source}\index{/home/ludo/Bureau/Project/PROG\_C/projectV2/include/quadtree.h@{/home/ludo/Bureau/Project/PROG\_C/projectV2/include/quadtree.h}}
+\mbox{\hyperlink{quadtree_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef QUADTREE\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define QUADTREE\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <MLV/MLV\_all.h>}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define IMAGE\_SIZE 512}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}} \{}
+\DoxyCodeLine{9     \textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_a0cb1c610270587a1b0189912b6516ddd}{x}}, \mbox{\hyperlink{structQuadtreeNode_a566d652acdd48a3339c19697155a2ad6}{y}}, \mbox{\hyperlink{structQuadtreeNode_aabe2917eaad6e3284c7d2500c65d86f4}{size}};}
+\DoxyCodeLine{10     MLV\_Color \mbox{\hyperlink{structQuadtreeNode_aedc94939af04aca52505e098403aad3f}{color}};}
+\DoxyCodeLine{11     \textcolor{keywordtype}{double} \mbox{\hyperlink{structQuadtreeNode_af6b9614242fbc0ae4df00ea1b04cffe1}{error}};}
+\DoxyCodeLine{12     \textcolor{keyword}{struct }\mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}} *\mbox{\hyperlink{structQuadtreeNode_afffb1679c6eb34f7ad4630eadffd5064}{children}}[4];}
+\DoxyCodeLine{13     \textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_afe91b24d9b6bc27d934e32a84e8babae}{id}};}
+\DoxyCodeLine{14 \} \mbox{\hyperlink{quadtree_8h_a7d6c460d05fbec3b88c09a05f9c29a7c}{QuadtreeNode}};}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{heap_8h}{heap.h}}"{}}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 MLV\_Color \mbox{\hyperlink{quadtree_8h_a1a4806a345ef2e1290e6d240093a1f61}{average\_color}}(MLV\_Image *image, \textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_a0cb1c610270587a1b0189912b6516ddd}{x}}, \textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_a566d652acdd48a3339c19697155a2ad6}{y}}, \textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_aabe2917eaad6e3284c7d2500c65d86f4}{size}});}
+\DoxyCodeLine{19 \textcolor{keywordtype}{double} \mbox{\hyperlink{quadtree_8h_ad1098571331055e832a1f6e547e14234}{color\_distance}}(MLV\_Color c1, MLV\_Color c2);}
+\DoxyCodeLine{20 \textcolor{keywordtype}{double} \mbox{\hyperlink{quadtree_8h_a617357cb58d14764b2bbef6305aa03bb}{calculate\_error}}(MLV\_Image *image, \textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_a0cb1c610270587a1b0189912b6516ddd}{x}}, \textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_a566d652acdd48a3339c19697155a2ad6}{y}}, \textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_aabe2917eaad6e3284c7d2500c65d86f4}{size}}, MLV\_Color avg\_color);}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}}* \mbox{\hyperlink{quadtree_8h_a482e249f24264db206a0286a7f01243c}{create\_quadtree\_node}}(\textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_a0cb1c610270587a1b0189912b6516ddd}{x}}, \textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_a566d652acdd48a3339c19697155a2ad6}{y}}, \textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_aabe2917eaad6e3284c7d2500c65d86f4}{size}}, MLV\_Color \mbox{\hyperlink{structQuadtreeNode_aedc94939af04aca52505e098403aad3f}{color}}, \textcolor{keywordtype}{double} \mbox{\hyperlink{structQuadtreeNode_af6b9614242fbc0ae4df00ea1b04cffe1}{error}});}
+\DoxyCodeLine{23 \mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}}* \mbox{\hyperlink{quadtree_8h_a8040b6d17b14636949e82dcf8b7af652}{build\_quadtree}}(MLV\_Image *image, \textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_a0cb1c610270587a1b0189912b6516ddd}{x}}, \textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_a566d652acdd48a3339c19697155a2ad6}{y}}, \textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_aabe2917eaad6e3284c7d2500c65d86f4}{size}}, \mbox{\hyperlink{structMaxHeap}{MaxHeap}}* heap);}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{keywordtype}{void} \mbox{\hyperlink{quadtree_8h_a616eb4970d2d3500622d43ebe4f03d91}{free\_quadtree}}(\mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}} *node);}
+\DoxyCodeLine{26 \textcolor{keywordtype}{void} \mbox{\hyperlink{quadtree_8h_afde47fbd2206039d0fe384779d5257e4}{minimize\_with\_loss}}(\mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}}* root, MLV\_Image *image);}
+\DoxyCodeLine{27 \textcolor{keywordtype}{double} \mbox{\hyperlink{quadtree_8h_ab6594a02eb46edac2a52f3972e20beca}{quadtree\_distance}}(\mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}}* t1, \mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}}* t2);}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}}* \mbox{\hyperlink{quadtree_8h_ab48c2faa83762792873f2c07aebd3605}{draw\_quadtree\_no\_loss}}(MLV\_Image *image);}
+\DoxyCodeLine{30 \textcolor{keywordtype}{void} \mbox{\hyperlink{quadtree_8h_a8fab42ccce7eca4ee587390b0b822d61}{draw\_quadtree\_with\_loss}}(\mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}}* quadtree, MLV\_Image *image);}
+\DoxyCodeLine{31 \textcolor{keywordtype}{void} \mbox{\hyperlink{quadtree_8h_a1e043589275bb17f38de11ed9431aa94}{subdivide\_and\_draw}}(MLV\_Image *image, \mbox{\hyperlink{structMaxHeap}{MaxHeap}}* heap);}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33 \textcolor{keywordtype}{void} \mbox{\hyperlink{quadtree_8h_aa8ba70c56fde64be98ed0e28fbc8d45e}{save\_quadtree\_binary}}(FILE *file, \mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}} *node);}
+\DoxyCodeLine{34 \textcolor{keywordtype}{void} \mbox{\hyperlink{quadtree_8h_a57cd1ca73ecd768fd02d6628527c003d}{save\_image\_quadtree}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *filename, \mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}} *quadtree);}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36 \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{quadtree_8h_a48eeb1ce412c19c04b0bb3356ad55d49}{get\_file\_extension}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *filename);}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 \textcolor{keywordtype}{void} \mbox{\hyperlink{quadtree_8h_a5f013b463ecbbfbdadecb668c506caf1}{save\_quadtree\_binary\_bw}}(FILE *file, \mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}} *node);}
+\DoxyCodeLine{39 \textcolor{keywordtype}{void} \mbox{\hyperlink{quadtree_8h_a34316b66246532c2b19c97a53a9efed8}{save\_image\_quadtree\_bw}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *filename, \mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}} *quadtree);}
+\DoxyCodeLine{40 \textcolor{keywordtype}{void} \mbox{\hyperlink{quadtree_8h_acf1e90a452242b9145429a3bfa18eb70}{save\_quadtree\_as\_graph}}(FILE *file, \mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}} *node);}
+\DoxyCodeLine{41 \textcolor{keywordtype}{void} \mbox{\hyperlink{quadtree_8h_a85a9f124219fdc58c4a489a068c1f3f6}{save\_image\_quadtree\_graph}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *filename, \mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}} *quadtree);}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}}* \mbox{\hyperlink{quadtree_8h_a69d05958aa4cb2763cd29186f6bd9775}{load\_quadtree\_binary}}(FILE *file, \textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_aabe2917eaad6e3284c7d2500c65d86f4}{size}}, \textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_a0cb1c610270587a1b0189912b6516ddd}{x}}, \textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_a566d652acdd48a3339c19697155a2ad6}{y}});}
+\DoxyCodeLine{44 \mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}}* \mbox{\hyperlink{quadtree_8h_a9a33cc3e16c479d77821f60133d7b61d}{load\_quadtree\_binary\_bw}}(FILE *file, \textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_aabe2917eaad6e3284c7d2500c65d86f4}{size}}, \textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_a0cb1c610270587a1b0189912b6516ddd}{x}}, \textcolor{keywordtype}{int} \mbox{\hyperlink{structQuadtreeNode_a566d652acdd48a3339c19697155a2ad6}{y}});}
+\DoxyCodeLine{45 \mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}}* \mbox{\hyperlink{quadtree_8h_ac17e127ef260c1760f373c03e7b1a342}{load\_image\_quadtree}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *filename);}
+\DoxyCodeLine{46 \mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}}* \mbox{\hyperlink{quadtree_8h_a4b62dd7ad129ffd6ddd0672d37a17935}{load\_image\_quadtree\_bw}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *filename);}
+\DoxyCodeLine{47 \mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}}* \mbox{\hyperlink{quadtree_8h_aa1b8059bc9e5b67d6df6edba6f1bbb4c}{load\_quadtree\_graph}}(FILE *file);}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \textcolor{keywordtype}{void} \mbox{\hyperlink{quadtree_8h_a612e4d67db04d2372ebede5e35af785a}{assign\_ids}}(\mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}} *node, \textcolor{keywordtype}{int} *current\_id);}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// QUADTREE\_H}}
+
+\end{DoxyCode}

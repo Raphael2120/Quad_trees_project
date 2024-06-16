@@ -1,0 +1,11 @@
+<map id="/home/ludo/Bureau/Project/PROG_C/projectV2/include/heap.h" name="/home/ludo/Bureau/Project/PROG_C/projectV2/include/heap.h">
+<area shape="rect" id="node1" title=" " alt="" coords="291,5,535,47"/>
+<area shape="rect" id="node2" href="$controller_8h.html" title=" " alt="" coords="216,288,412,344"/>
+<area shape="rect" id="node3" href="$controller_8c.html" title="Main application controller for handling user interactions and quadtree operations." alt="" coords="5,392,249,433"/>
+<area shape="rect" id="node5" href="$quadtree_8h.html" title=" " alt="" coords="315,95,511,151"/>
+<area shape="rect" id="node7" href="$quadtree_8c.html" title="Implementation of quadtree operations including building, minimizing, and saving/loading." alt="" coords="675,295,916,337"/>
+<area shape="rect" id="node9" href="$heap_8c.html" title="Implementation of a max&#45;heap for handling quadtree nodes." alt="" coords="609,199,824,240"/>
+<area shape="rect" id="node4" href="$main_8c.html" title="Main entry point for the Quadtree Image Approximation application." alt="" coords="274,392,490,433"/>
+<area shape="rect" id="node6" href="$view_8h.html" title=" " alt="" coords="291,199,534,240"/>
+<area shape="rect" id="node8" href="$view_8c.html" title="Implementation of functions for drawing and handling UI elements for quadtree operations." alt="" coords="437,295,650,337"/>
+</map>

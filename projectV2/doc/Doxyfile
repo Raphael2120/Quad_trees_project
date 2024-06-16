@@ -1,0 +1,24 @@
+# Doxyfile 1.9.1
+
+# Project related configuration options
+PROJECT_NAME           = "Quadtree Application"
+PROJECT_BRIEF          = "Documentation for the Quadtree Application"
+OUTPUT_DIRECTORY       = .
+INPUT                  = ../src ../include
+RECURSIVE              = YES
+
+# Build related configuration options
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+
+# Configuration options related to the HTML output
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+
+# Options related to the DOT tool (Graphviz)
+HAVE_DOT               = YES
+DOT_GRAPH_MAX_NODES    = 50
+
+# Ensure Doxygen processes all files
+FILE_PATTERNS          = *.c *.h

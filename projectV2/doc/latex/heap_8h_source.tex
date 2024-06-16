@@ -1,0 +1,23 @@
+\hypertarget{heap_8h_source}{}\doxysection{heap.\+h}
+\label{heap_8h_source}\index{/home/ludo/Bureau/Project/PROG\_C/projectV2/include/heap.h@{/home/ludo/Bureau/Project/PROG\_C/projectV2/include/heap.h}}
+\mbox{\hyperlink{heap_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef HEAP\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define HEAP\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{quadtree_8h}{quadtree.h}}"{}}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{7     \mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}}** \mbox{\hyperlink{structMaxHeap_a4e921f6d20f47062d3f1d1a66ebe943c}{nodes}};}
+\DoxyCodeLine{8     \textcolor{keywordtype}{int} \mbox{\hyperlink{structMaxHeap_a17278f49f9a98be2f45bb89662303a59}{size}};}
+\DoxyCodeLine{9     \textcolor{keywordtype}{int} \mbox{\hyperlink{structMaxHeap_ad6e9cdd38ba39e83875e50d85e1cb706}{capacity}};}
+\DoxyCodeLine{10 \} \mbox{\hyperlink{structMaxHeap}{MaxHeap}};}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \mbox{\hyperlink{structMaxHeap}{MaxHeap}}* \mbox{\hyperlink{heap_8h_abaf8a77f5b2923d87f4931f102b385be}{create\_max\_heap}}(\textcolor{keywordtype}{int} capacity);}
+\DoxyCodeLine{13 \textcolor{keywordtype}{void} \mbox{\hyperlink{heap_8h_a9860827486822c0b1b3f9f3927b630d8}{max\_heapify}}(\mbox{\hyperlink{structMaxHeap}{MaxHeap}}* heap, \textcolor{keywordtype}{int} idx);}
+\DoxyCodeLine{14 \textcolor{keywordtype}{void} \mbox{\hyperlink{heap_8h_a467e22e0527ba82269b661d876f89bf2}{insert\_max\_heap}}(\mbox{\hyperlink{structMaxHeap}{MaxHeap}}* heap, \mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}}* node);}
+\DoxyCodeLine{15 \mbox{\hyperlink{structQuadtreeNode}{QuadtreeNode}}* \mbox{\hyperlink{heap_8h_acc81c280c8c4b65ac2d8f1740af29596}{extract\_max}}(\mbox{\hyperlink{structMaxHeap}{MaxHeap}}* heap);}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// HEAP\_H}}
+
+\end{DoxyCode}

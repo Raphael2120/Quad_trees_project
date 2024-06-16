@@ -1,3 +1,8 @@
+/**
+ * @file quadtree.c
+ * @brief Implementation of quadtree operations including building, minimizing, and saving/loading.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -7,6 +12,15 @@
 #include "../include/heap.h"
 #include "../include/view.h"
 
+/**
+ * @brief Calculates the average color of a specified region in an image.
+ *
+ * @param image The MLV image.
+ * @param x The x-coordinate of the top-left corner of the region.
+ * @param y The y-coordinate of the top-left corner of the region.
+ * @param size The size of the region (width and height).
+ * @return The average color of the region.
+ */
 MLV_Color average_color(MLV_Image *image, int x, int y, int size) {
     int r = 0, g = 0, b = 0, a = 0, count = 0;
     for (int i = x; i < x + size; i++) {
@@ -23,6 +37,13 @@ MLV_Color average_color(MLV_Image *image, int x, int y, int size) {
     return MLV_rgba(r / count, g / count, b / count, a / count);
 }
 
+/**
+ * @brief Computes the distance between two colors.
+ *
+ * @param c1 The first color.
+ * @param c2 The second color.
+ * @return The Euclidean distance between the two colors.
+ */
 double color_distance(MLV_Color c1, MLV_Color c2) {
     Uint8 r1, g1, b1, a1;
     Uint8 r2, g2, b2, a2;
@@ -35,13 +56,23 @@ double color_distance(MLV_Color c1, MLV_Color c2) {
                 (a1 - a2) * (a1 - a2));
 }
 
+/**
+ * @brief Calculates the error between the actual and average colors of a region.
+ *
+ * @param image The MLV image.
+ * @param x The x-coordinate of the top-left corner of the region.
+ * @param y The y-coordinate of the top-left corner of the region.
+ * @param size The size of the region (width and height).
+ * @param avg_color The average color of the region.
+ * @return The total error.
+ */
 double calculate_error(MLV_Image *image, int x, int y, int size, MLV_Color avg_color) {
     double error = 0.0;
     Uint8 ar, ag, ab, aa;
     MLV_convert_color_to_rgba(avg_color, &ar, &ag, &ab, &aa);
 
     for (int i = x; i < x + size; i++) {
-        for        (int j = y; j < y + size; j++) {
+        for (int j = y; j < y + size; j++) {
             int pr, pg, pb, pa;
             MLV_get_pixel_on_image(image, i, j, &pr, &pg, &pb, &pa);
 
@@ -55,6 +86,16 @@ double calculate_error(MLV_Image *image, int x, int y, int size, MLV_Color avg_c
     return error;
 }
 
+/**
+ * @brief Creates a quadtree node with specified properties.
+ *
+ * @param x The x-coordinate of the top-left corner of the region.
+ * @param y The y-coordinate of the top-left corner of the region.
+ * @param size The size of the region (width and height).
+ * @param color The color of the node.
+ * @param error The error of the node.
+ * @return A pointer to the newly created QuadtreeNode.
+ */
 QuadtreeNode* create_quadtree_node(int x, int y, int size, MLV_Color color, double error) {
     QuadtreeNode* node = (QuadtreeNode*)malloc(sizeof(QuadtreeNode));
     node->x = x;
@@ -69,6 +110,16 @@ QuadtreeNode* create_quadtree_node(int x, int y, int size, MLV_Color color, doub
     return node;
 }
 
+/**
+ * @brief Builds a quadtree for a specified region of an image.
+ *
+ * @param image The MLV image.
+ * @param x The x-coordinate of the top-left corner of the region.
+ * @param y The y-coordinate of the top-left corner of the region.
+ * @param size The size of the region (width and height).
+ * @param heap The max-heap used to manage quadtree nodes.
+ * @return A pointer to the root of the created quadtree.
+ */
 QuadtreeNode* build_quadtree(MLV_Image *image, int x, int y, int size, MaxHeap* heap) {
     MLV_Color avg_color = average_color(image, x, y, size);
     double error = calculate_error(image, x, y, size, avg_color);
@@ -78,6 +129,11 @@ QuadtreeNode* build_quadtree(MLV_Image *image, int x, int y, int size, MaxHeap* 
     return node;
 }
 
+/**
+ * @brief Frees the memory allocated for a quadtree.
+ *
+ * @param node The root of the quadtree to be freed.
+ */
 void free_quadtree(QuadtreeNode *node) {
     if (!node) return;
     for (int i = 0; i < 4; i++) {
@@ -86,6 +142,12 @@ void free_quadtree(QuadtreeNode *node) {
     free(node);
 }
 
+/**
+ * @brief Minimizes the quadtree with loss, merging similar nodes.
+ *
+ * @param root The root of the quadtree.
+ * @param image The MLV image.
+ */
 void minimize_with_loss(QuadtreeNode* root, MLV_Image *image) {
     if (!root) return;
 
@@ -120,6 +182,13 @@ void minimize_with_loss(QuadtreeNode* root, MLV_Image *image) {
     }
 }
 
+/**
+ * @brief Computes the distance between two quadtree nodes.
+ *
+ * @param t1 The first quadtree node.
+ * @param t2 The second quadtree node.
+ * @return The distance between the two nodes.
+ */
 double quadtree_distance(QuadtreeNode* t1, QuadtreeNode* t2) {
     if (t1 == NULL && t2 == NULL) return 0.0;
     if (t1 == NULL || t2 == NULL) return INFINITY;
@@ -135,6 +204,12 @@ double quadtree_distance(QuadtreeNode* t1, QuadtreeNode* t2) {
     }
 }
 
+/**
+ * @brief Builds and draws a quadtree without loss for the entire image.
+ *
+ * @param image The MLV image.
+ * @return A pointer to the root of the created quadtree.
+ */
 QuadtreeNode* draw_quadtree_no_loss(MLV_Image *image) {
     MaxHeap* heap = create_max_heap(1024);
     QuadtreeNode *quadtree = build_quadtree(image, 0, 0, IMAGE_SIZE, heap);
@@ -144,12 +219,24 @@ QuadtreeNode* draw_quadtree_no_loss(MLV_Image *image) {
     return quadtree;
 }
 
+/**
+ * @brief Minimizes and draws a quadtree with loss.
+ *
+ * @param quadtree The root of the quadtree.
+ * @param image The MLV image.
+ */
 void draw_quadtree_with_loss(QuadtreeNode* quadtree, MLV_Image *image) {
     minimize_with_loss(quadtree, image);
     MLV_clear_window(MLV_COLOR_BLACK); // Clear the window before drawing the minimized quadtree
     draw_entire_quadtree(quadtree);
 }
 
+/**
+ * @brief Subdivides a quadtree node and draws the quadtree.
+ *
+ * @param image The MLV image.
+ * @param heap The max-heap used to manage quadtree nodes.
+ */
 void subdivide_and_draw(MLV_Image *image, MaxHeap* heap) {
     while (heap->size > 0) {
         QuadtreeNode* node = extract_max(heap);
@@ -169,6 +256,12 @@ void subdivide_and_draw(MLV_Image *image, MaxHeap* heap) {
     }
 }
 
+/**
+ * @brief Saves a quadtree to a binary file.
+ *
+ * @param file The file to save to.
+ * @param node The root of the quadtree.
+ */
 void save_quadtree_binary(FILE *file, QuadtreeNode *node) {
     if (!node) return;
 
@@ -192,6 +285,12 @@ void save_quadtree_binary(FILE *file, QuadtreeNode *node) {
     }
 }
 
+/**
+ * @brief Saves a quadtree to a file.
+ *
+ * @param filename The name of the file to save to.
+ * @param quadtree The root of the quadtree.
+ */
 void save_image_quadtree(const char *filename, QuadtreeNode *quadtree) {
     FILE *file = fopen(filename, "wb");
     if (!file) {
@@ -202,12 +301,24 @@ void save_image_quadtree(const char *filename, QuadtreeNode *quadtree) {
     fclose(file);
 }
 
+/**
+ * @brief Retrieves the file extension from a filename.
+ *
+ * @param filename The name of the file.
+ * @return The file extension.
+ */
 const char* get_file_extension(const char *filename) {
     const char *dot = strrchr(filename, '.');
     if(!dot || dot == filename) return "";
     return dot + 1;
 }
 
+/**
+ * @brief Saves a quadtree to a binary file in black and white.
+ *
+ * @param file The file to save to.
+ * @param node The root of the quadtree.
+ */
 void save_quadtree_binary_bw(FILE *file, QuadtreeNode *node) {
     if (!node) return;
 
@@ -229,6 +340,12 @@ void save_quadtree_binary_bw(FILE *file, QuadtreeNode *node) {
     }
 }
 
+/**
+ * @brief Saves a quadtree to a file in black and white.
+ *
+ * @param filename The name of the file to save to.
+ * @param quadtree The root of the quadtree.
+ */
 void save_image_quadtree_bw(const char *filename, QuadtreeNode *quadtree) {
     FILE *file = fopen(filename, "wb");
     if (!file) {
@@ -239,7 +356,12 @@ void save_image_quadtree_bw(const char *filename, QuadtreeNode *quadtree) {
     fclose(file);
 }
 
-// Fonction pour sauvegarder le quadtree en tant que graphe minimisé
+/**
+ * @brief Saves a quadtree as a graph to a file.
+ *
+ * @param file The file to save to.
+ * @param node The root of the quadtree.
+ */
 void save_quadtree_as_graph(FILE *file, QuadtreeNode *node) {
     if (!node) return;
     
@@ -258,6 +380,12 @@ void save_quadtree_as_graph(FILE *file, QuadtreeNode *node) {
     }
 }
 
+/**
+ * @brief Saves a quadtree as a graph to a file.
+ *
+ * @param filename The name of the file to save to.
+ * @param quadtree The root of the quadtree.
+ */
 void save_image_quadtree_graph(const char *filename, QuadtreeNode *quadtree) {
     FILE *file = fopen(filename, "w");
     if (!file) {
@@ -270,6 +398,15 @@ void save_image_quadtree_graph(const char *filename, QuadtreeNode *quadtree) {
     fclose(file);
 }
 
+/**
+ * @brief Loads a quadtree from a binary file.
+ *
+ * @param file The file to load from.
+ * @param size The size of the region (width and height).
+ * @param x The x-coordinate of the top-left corner of the region.
+ * @param y The y-coordinate of the top-left corner of the region.
+ * @return A pointer to the root of the loaded quadtree.
+ */
 QuadtreeNode* load_quadtree_binary(FILE *file, int size, int x, int y) {
     int is_leaf;
     if (fread(&is_leaf, sizeof(int), 1, file) != 1) {
@@ -297,6 +434,15 @@ QuadtreeNode* load_quadtree_binary(FILE *file, int size, int x, int y) {
     }
 }
 
+/**
+ * @brief Loads a quadtree from a binary file in black and white.
+ *
+ * @param file The file to load from.
+ * @param size The size of the region (width and height).
+ * @param x The x-coordinate of the top-left corner of the region.
+ * @param y The y-coordinate of the top-left corner of the region.
+ * @return A pointer to the root of the loaded quadtree.
+ */
 QuadtreeNode* load_quadtree_binary_bw(FILE *file, int size, int x, int y) {
     int is_leaf;
     if (fread(&is_leaf, sizeof(int), 1, file) != 1) {
@@ -321,6 +467,12 @@ QuadtreeNode* load_quadtree_binary_bw(FILE *file, int size, int x, int y) {
     }
 }
 
+/**
+ * @brief Loads a quadtree from a file.
+ *
+ * @param filename The name of the file to load from.
+ * @return A pointer to the root of the loaded quadtree.
+ */
 QuadtreeNode* load_image_quadtree(const char *filename) {
     FILE *file = fopen(filename, "rb");
     if (!file) {
@@ -332,6 +484,12 @@ QuadtreeNode* load_image_quadtree(const char *filename) {
     return quadtree;
 }
 
+/**
+ * @brief Loads a quadtree from a file in black and white.
+ *
+ * @param filename The name of the file to load from.
+ * @return A pointer to the root of the loaded quadtree.
+ */
 QuadtreeNode* load_image_quadtree_bw(const char *filename) {
     FILE *file = fopen(filename, "rb");
     if (!file) {
@@ -343,6 +501,12 @@ QuadtreeNode* load_image_quadtree_bw(const char *filename) {
     return quadtree;
 }
 
+/**
+ * @brief Loads a quadtree from a file as a graph.
+ *
+ * @param file The file to load from.
+ * @return A pointer to the root of the loaded quadtree.
+ */
 QuadtreeNode* load_quadtree_graph(FILE *file) {
     int id, c0, c1, c2, c3;
     int capacity = 10000;
@@ -379,6 +543,12 @@ QuadtreeNode* load_quadtree_graph(FILE *file) {
     return root;
 }
 
+/**
+ * @brief Assigns IDs to all nodes in a quadtree.
+ *
+ * @param node The root of the quadtree.
+ * @param current_id Pointer to the current ID value.
+ */
 void assign_ids(QuadtreeNode *node, int *current_id) {
     if (!node) return;
 

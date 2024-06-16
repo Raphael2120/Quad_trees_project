@@ -1,0 +1,176 @@
+\hypertarget{view_8c}{}\doxysection{/home/ludo/\+Bureau/\+Project/\+PROG\+\_\+\+C/project\+V2/src/view.c File Reference}
+\label{view_8c}\index{/home/ludo/Bureau/Project/PROG\_C/projectV2/src/view.c@{/home/ludo/Bureau/Project/PROG\_C/projectV2/src/view.c}}
+
+
+Implementation of functions for drawing and handling UI elements for quadtree operations.  
+
+
+{\ttfamily \#include $<$MLV/\+MLV\+\_\+all.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}../include/view.\+h\char`\"{}}\newline
+Include dependency graph for view.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=254pt]{view_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{view_8c_af83d407b8eae1bb7c56af2ae9e814c8e}{draw\+\_\+quadtree}} (\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$node)
+\begin{DoxyCompactList}\small\item\em Recursively draws the quadtree nodes on the window. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{view_8c_a0f89d546a906ffc354f885b9f9063a03}{draw\+\_\+entire\+\_\+quadtree}} (\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$node)
+\begin{DoxyCompactList}\small\item\em Draws the entire quadtree and updates the window. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{view_8c_a620fd28f0662fd27061296dc73763a0e}{draw\+\_\+buttons}} ()
+\begin{DoxyCompactList}\small\item\em Draws the UI buttons for the application. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{view_8c_aa7a2eb9891366c4f11b1321db9b74466}{handle\+\_\+button\+\_\+click}} (int x, int y)
+\begin{DoxyCompactList}\small\item\em Handles button click events and determines which button was clicked. \end{DoxyCompactList}\item 
+Uint8 \mbox{\hyperlink{view_8c_a7f2340332c909bae102f14c9f1f518e1}{MLV\+\_\+get\+\_\+red}} (MLV\+\_\+\+Color color)
+\begin{DoxyCompactList}\small\item\em Retrieves the red component of a color. \end{DoxyCompactList}\item 
+Uint8 \mbox{\hyperlink{view_8c_a58076cd082380d8f1e98d5bf2608ff13}{MLV\+\_\+get\+\_\+green}} (MLV\+\_\+\+Color color)
+\begin{DoxyCompactList}\small\item\em Retrieves the green component of a color. \end{DoxyCompactList}\item 
+Uint8 \mbox{\hyperlink{view_8c_a616a61d92b104244ee8f69708e92c4c6}{MLV\+\_\+get\+\_\+blue}} (MLV\+\_\+\+Color color)
+\begin{DoxyCompactList}\small\item\em Retrieves the blue component of a color. \end{DoxyCompactList}\item 
+Uint8 \mbox{\hyperlink{view_8c_a5b8dfaa20ee6e6563967e71d5364e624}{MLV\+\_\+get\+\_\+alpha}} (MLV\+\_\+\+Color color)
+\begin{DoxyCompactList}\small\item\em Retrieves the alpha component of a color. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of functions for drawing and handling UI elements for quadtree operations. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{view_8c_a620fd28f0662fd27061296dc73763a0e}\label{view_8c_a620fd28f0662fd27061296dc73763a0e}} 
+\index{view.c@{view.c}!draw\_buttons@{draw\_buttons}}
+\index{draw\_buttons@{draw\_buttons}!view.c@{view.c}}
+\doxysubsubsection{\texorpdfstring{draw\_buttons()}{draw\_buttons()}}
+{\footnotesize\ttfamily void draw\+\_\+buttons (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Draws the UI buttons for the application. 
+
+\mbox{\Hypertarget{view_8c_a0f89d546a906ffc354f885b9f9063a03}\label{view_8c_a0f89d546a906ffc354f885b9f9063a03}} 
+\index{view.c@{view.c}!draw\_entire\_quadtree@{draw\_entire\_quadtree}}
+\index{draw\_entire\_quadtree@{draw\_entire\_quadtree}!view.c@{view.c}}
+\doxysubsubsection{\texorpdfstring{draw\_entire\_quadtree()}{draw\_entire\_quadtree()}}
+{\footnotesize\ttfamily void draw\+\_\+entire\+\_\+quadtree (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$}]{node }\end{DoxyParamCaption})}
+
+
+
+Draws the entire quadtree and updates the window. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em node} & The root node of the quadtree. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{view_8c_af83d407b8eae1bb7c56af2ae9e814c8e}\label{view_8c_af83d407b8eae1bb7c56af2ae9e814c8e}} 
+\index{view.c@{view.c}!draw\_quadtree@{draw\_quadtree}}
+\index{draw\_quadtree@{draw\_quadtree}!view.c@{view.c}}
+\doxysubsubsection{\texorpdfstring{draw\_quadtree()}{draw\_quadtree()}}
+{\footnotesize\ttfamily void draw\+\_\+quadtree (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$}]{node }\end{DoxyParamCaption})}
+
+
+
+Recursively draws the quadtree nodes on the window. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em node} & The root node of the quadtree. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{view_8c_aa7a2eb9891366c4f11b1321db9b74466}\label{view_8c_aa7a2eb9891366c4f11b1321db9b74466}} 
+\index{view.c@{view.c}!handle\_button\_click@{handle\_button\_click}}
+\index{handle\_button\_click@{handle\_button\_click}!view.c@{view.c}}
+\doxysubsubsection{\texorpdfstring{handle\_button\_click()}{handle\_button\_click()}}
+{\footnotesize\ttfamily int handle\+\_\+button\+\_\+click (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+Handles button click events and determines which button was clicked. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The x-\/coordinate of the mouse click. \\
+\hline
+{\em y} & The y-\/coordinate of the mouse click. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An integer representing the button clicked (1-\/7), or 0 if no button was clicked. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{view_8c_a5b8dfaa20ee6e6563967e71d5364e624}\label{view_8c_a5b8dfaa20ee6e6563967e71d5364e624}} 
+\index{view.c@{view.c}!MLV\_get\_alpha@{MLV\_get\_alpha}}
+\index{MLV\_get\_alpha@{MLV\_get\_alpha}!view.c@{view.c}}
+\doxysubsubsection{\texorpdfstring{MLV\_get\_alpha()}{MLV\_get\_alpha()}}
+{\footnotesize\ttfamily Uint8 MLV\+\_\+get\+\_\+alpha (\begin{DoxyParamCaption}\item[{MLV\+\_\+\+Color}]{color }\end{DoxyParamCaption})}
+
+
+
+Retrieves the alpha component of a color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & The MLV color. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The alpha component of the color. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{view_8c_a616a61d92b104244ee8f69708e92c4c6}\label{view_8c_a616a61d92b104244ee8f69708e92c4c6}} 
+\index{view.c@{view.c}!MLV\_get\_blue@{MLV\_get\_blue}}
+\index{MLV\_get\_blue@{MLV\_get\_blue}!view.c@{view.c}}
+\doxysubsubsection{\texorpdfstring{MLV\_get\_blue()}{MLV\_get\_blue()}}
+{\footnotesize\ttfamily Uint8 MLV\+\_\+get\+\_\+blue (\begin{DoxyParamCaption}\item[{MLV\+\_\+\+Color}]{color }\end{DoxyParamCaption})}
+
+
+
+Retrieves the blue component of a color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & The MLV color. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The blue component of the color. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{view_8c_a58076cd082380d8f1e98d5bf2608ff13}\label{view_8c_a58076cd082380d8f1e98d5bf2608ff13}} 
+\index{view.c@{view.c}!MLV\_get\_green@{MLV\_get\_green}}
+\index{MLV\_get\_green@{MLV\_get\_green}!view.c@{view.c}}
+\doxysubsubsection{\texorpdfstring{MLV\_get\_green()}{MLV\_get\_green()}}
+{\footnotesize\ttfamily Uint8 MLV\+\_\+get\+\_\+green (\begin{DoxyParamCaption}\item[{MLV\+\_\+\+Color}]{color }\end{DoxyParamCaption})}
+
+
+
+Retrieves the green component of a color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & The MLV color. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The green component of the color. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{view_8c_a7f2340332c909bae102f14c9f1f518e1}\label{view_8c_a7f2340332c909bae102f14c9f1f518e1}} 
+\index{view.c@{view.c}!MLV\_get\_red@{MLV\_get\_red}}
+\index{MLV\_get\_red@{MLV\_get\_red}!view.c@{view.c}}
+\doxysubsubsection{\texorpdfstring{MLV\_get\_red()}{MLV\_get\_red()}}
+{\footnotesize\ttfamily Uint8 MLV\+\_\+get\+\_\+red (\begin{DoxyParamCaption}\item[{MLV\+\_\+\+Color}]{color }\end{DoxyParamCaption})}
+
+
+
+Retrieves the red component of a color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & The MLV color. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The red component of the color. 
+\end{DoxyReturn}

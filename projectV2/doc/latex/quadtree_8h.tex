@@ -1,0 +1,572 @@
+\hypertarget{quadtree_8h}{}\doxysection{/home/ludo/\+Bureau/\+Project/\+PROG\+\_\+\+C/project\+V2/include/quadtree.h File Reference}
+\label{quadtree_8h}\index{/home/ludo/Bureau/Project/PROG\_C/projectV2/include/quadtree.h@{/home/ludo/Bureau/Project/PROG\_C/projectV2/include/quadtree.h}}
+{\ttfamily \#include $<$MLV/\+MLV\+\_\+all.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}heap.\+h\char`\"{}}\newline
+Include dependency graph for quadtree.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=283pt]{quadtree_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{quadtree_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{quadtree_8h_a03231544d56f41bf8432d385c56ac927}{IMAGE\+\_\+\+SIZE}}~512
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} \mbox{\hyperlink{quadtree_8h_a7d6c460d05fbec3b88c09a05f9c29a7c}{Quadtree\+Node}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+MLV\+\_\+\+Color \mbox{\hyperlink{quadtree_8h_a1a4806a345ef2e1290e6d240093a1f61}{average\+\_\+color}} (MLV\+\_\+\+Image $\ast$image, int x, int y, int size)
+\begin{DoxyCompactList}\small\item\em Calculates the average color of a specified region in an image. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{quadtree_8h_ad1098571331055e832a1f6e547e14234}{color\+\_\+distance}} (MLV\+\_\+\+Color c1, MLV\+\_\+\+Color c2)
+\begin{DoxyCompactList}\small\item\em Computes the distance between two colors. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{quadtree_8h_a617357cb58d14764b2bbef6305aa03bb}{calculate\+\_\+error}} (MLV\+\_\+\+Image $\ast$image, int x, int y, int size, MLV\+\_\+\+Color avg\+\_\+color)
+\begin{DoxyCompactList}\small\item\em Calculates the error between the actual and average colors of a region. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$ \mbox{\hyperlink{quadtree_8h_a482e249f24264db206a0286a7f01243c}{create\+\_\+quadtree\+\_\+node}} (int x, int y, int size, MLV\+\_\+\+Color color, double error)
+\begin{DoxyCompactList}\small\item\em Creates a quadtree node with specified properties. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$ \mbox{\hyperlink{quadtree_8h_a8040b6d17b14636949e82dcf8b7af652}{build\+\_\+quadtree}} (MLV\+\_\+\+Image $\ast$image, int x, int y, int size, \mbox{\hyperlink{structMaxHeap}{Max\+Heap}} $\ast$heap)
+\begin{DoxyCompactList}\small\item\em Builds a quadtree for a specified region of an image. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{quadtree_8h_a616eb4970d2d3500622d43ebe4f03d91}{free\+\_\+quadtree}} (\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$node)
+\begin{DoxyCompactList}\small\item\em Frees the memory allocated for a quadtree. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{quadtree_8h_afde47fbd2206039d0fe384779d5257e4}{minimize\+\_\+with\+\_\+loss}} (\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$root, MLV\+\_\+\+Image $\ast$image)
+\begin{DoxyCompactList}\small\item\em Minimizes the quadtree with loss, merging similar nodes. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{quadtree_8h_ab6594a02eb46edac2a52f3972e20beca}{quadtree\+\_\+distance}} (\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$t1, \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$t2)
+\begin{DoxyCompactList}\small\item\em Computes the distance between two quadtree nodes. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$ \mbox{\hyperlink{quadtree_8h_ab48c2faa83762792873f2c07aebd3605}{draw\+\_\+quadtree\+\_\+no\+\_\+loss}} (MLV\+\_\+\+Image $\ast$image)
+\begin{DoxyCompactList}\small\item\em Builds and draws a quadtree without loss for the entire image. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{quadtree_8h_a8fab42ccce7eca4ee587390b0b822d61}{draw\+\_\+quadtree\+\_\+with\+\_\+loss}} (\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$quadtree, MLV\+\_\+\+Image $\ast$image)
+\begin{DoxyCompactList}\small\item\em Minimizes and draws a quadtree with loss. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{quadtree_8h_a1e043589275bb17f38de11ed9431aa94}{subdivide\+\_\+and\+\_\+draw}} (MLV\+\_\+\+Image $\ast$image, \mbox{\hyperlink{structMaxHeap}{Max\+Heap}} $\ast$heap)
+\begin{DoxyCompactList}\small\item\em Subdivides a quadtree node and draws the quadtree. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{quadtree_8h_aa8ba70c56fde64be98ed0e28fbc8d45e}{save\+\_\+quadtree\+\_\+binary}} (FILE $\ast$file, \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$node)
+\begin{DoxyCompactList}\small\item\em Saves a quadtree to a binary file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{quadtree_8h_a57cd1ca73ecd768fd02d6628527c003d}{save\+\_\+image\+\_\+quadtree}} (const char $\ast$filename, \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$quadtree)
+\begin{DoxyCompactList}\small\item\em Saves a quadtree to a file. \end{DoxyCompactList}\item 
+const char $\ast$ \mbox{\hyperlink{quadtree_8h_a48eeb1ce412c19c04b0bb3356ad55d49}{get\+\_\+file\+\_\+extension}} (const char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Retrieves the file extension from a filename. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{quadtree_8h_a5f013b463ecbbfbdadecb668c506caf1}{save\+\_\+quadtree\+\_\+binary\+\_\+bw}} (FILE $\ast$file, \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$node)
+\begin{DoxyCompactList}\small\item\em Saves a quadtree to a binary file in black and white. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{quadtree_8h_a34316b66246532c2b19c97a53a9efed8}{save\+\_\+image\+\_\+quadtree\+\_\+bw}} (const char $\ast$filename, \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$quadtree)
+\begin{DoxyCompactList}\small\item\em Saves a quadtree to a file in black and white. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{quadtree_8h_acf1e90a452242b9145429a3bfa18eb70}{save\+\_\+quadtree\+\_\+as\+\_\+graph}} (FILE $\ast$file, \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$node)
+\begin{DoxyCompactList}\small\item\em Saves a quadtree as a graph to a file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{quadtree_8h_a85a9f124219fdc58c4a489a068c1f3f6}{save\+\_\+image\+\_\+quadtree\+\_\+graph}} (const char $\ast$filename, \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$quadtree)
+\begin{DoxyCompactList}\small\item\em Saves a quadtree as a graph to a file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$ \mbox{\hyperlink{quadtree_8h_a69d05958aa4cb2763cd29186f6bd9775}{load\+\_\+quadtree\+\_\+binary}} (FILE $\ast$file, int size, int x, int y)
+\begin{DoxyCompactList}\small\item\em Loads a quadtree from a binary file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$ \mbox{\hyperlink{quadtree_8h_a9a33cc3e16c479d77821f60133d7b61d}{load\+\_\+quadtree\+\_\+binary\+\_\+bw}} (FILE $\ast$file, int size, int x, int y)
+\begin{DoxyCompactList}\small\item\em Loads a quadtree from a binary file in black and white. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$ \mbox{\hyperlink{quadtree_8h_ac17e127ef260c1760f373c03e7b1a342}{load\+\_\+image\+\_\+quadtree}} (const char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Loads a quadtree from a file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$ \mbox{\hyperlink{quadtree_8h_a4b62dd7ad129ffd6ddd0672d37a17935}{load\+\_\+image\+\_\+quadtree\+\_\+bw}} (const char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Loads a quadtree from a file in black and white. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$ \mbox{\hyperlink{quadtree_8h_aa1b8059bc9e5b67d6df6edba6f1bbb4c}{load\+\_\+quadtree\+\_\+graph}} (FILE $\ast$file)
+\begin{DoxyCompactList}\small\item\em Loads a quadtree from a file as a graph. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{quadtree_8h_a612e4d67db04d2372ebede5e35af785a}{assign\+\_\+ids}} (\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$node, int $\ast$current\+\_\+id)
+\begin{DoxyCompactList}\small\item\em Assigns IDs to all nodes in a quadtree. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{quadtree_8h_a03231544d56f41bf8432d385c56ac927}\label{quadtree_8h_a03231544d56f41bf8432d385c56ac927}} 
+\index{quadtree.h@{quadtree.h}!IMAGE\_SIZE@{IMAGE\_SIZE}}
+\index{IMAGE\_SIZE@{IMAGE\_SIZE}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{IMAGE\_SIZE}{IMAGE\_SIZE}}
+{\footnotesize\ttfamily \#define IMAGE\+\_\+\+SIZE~512}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{quadtree_8h_a7d6c460d05fbec3b88c09a05f9c29a7c}\label{quadtree_8h_a7d6c460d05fbec3b88c09a05f9c29a7c}} 
+\index{quadtree.h@{quadtree.h}!QuadtreeNode@{QuadtreeNode}}
+\index{QuadtreeNode@{QuadtreeNode}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{QuadtreeNode}{QuadtreeNode}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{quadtree_8h_a612e4d67db04d2372ebede5e35af785a}\label{quadtree_8h_a612e4d67db04d2372ebede5e35af785a}} 
+\index{quadtree.h@{quadtree.h}!assign\_ids@{assign\_ids}}
+\index{assign\_ids@{assign\_ids}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{assign\_ids()}{assign\_ids()}}
+{\footnotesize\ttfamily void assign\+\_\+ids (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$}]{node,  }\item[{int $\ast$}]{current\+\_\+id }\end{DoxyParamCaption})}
+
+
+
+Assigns IDs to all nodes in a quadtree. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em node} & The root of the quadtree. \\
+\hline
+{\em current\+\_\+id} & Pointer to the current ID value. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{quadtree_8h_a1a4806a345ef2e1290e6d240093a1f61}\label{quadtree_8h_a1a4806a345ef2e1290e6d240093a1f61}} 
+\index{quadtree.h@{quadtree.h}!average\_color@{average\_color}}
+\index{average\_color@{average\_color}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{average\_color()}{average\_color()}}
+{\footnotesize\ttfamily MLV\+\_\+\+Color average\+\_\+color (\begin{DoxyParamCaption}\item[{MLV\+\_\+\+Image $\ast$}]{image,  }\item[{int}]{x,  }\item[{int}]{y,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+Calculates the average color of a specified region in an image. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & The MLV image. \\
+\hline
+{\em x} & The x-\/coordinate of the top-\/left corner of the region. \\
+\hline
+{\em y} & The y-\/coordinate of the top-\/left corner of the region. \\
+\hline
+{\em size} & The size of the region (width and height). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The average color of the region. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{quadtree_8h_a8040b6d17b14636949e82dcf8b7af652}\label{quadtree_8h_a8040b6d17b14636949e82dcf8b7af652}} 
+\index{quadtree.h@{quadtree.h}!build\_quadtree@{build\_quadtree}}
+\index{build\_quadtree@{build\_quadtree}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{build\_quadtree()}{build\_quadtree()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$ build\+\_\+quadtree (\begin{DoxyParamCaption}\item[{MLV\+\_\+\+Image $\ast$}]{image,  }\item[{int}]{x,  }\item[{int}]{y,  }\item[{int}]{size,  }\item[{\mbox{\hyperlink{structMaxHeap}{Max\+Heap}} $\ast$}]{heap }\end{DoxyParamCaption})}
+
+
+
+Builds a quadtree for a specified region of an image. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & The MLV image. \\
+\hline
+{\em x} & The x-\/coordinate of the top-\/left corner of the region. \\
+\hline
+{\em y} & The y-\/coordinate of the top-\/left corner of the region. \\
+\hline
+{\em size} & The size of the region (width and height). \\
+\hline
+{\em heap} & The max-\/heap used to manage quadtree nodes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the root of the created quadtree. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{quadtree_8h_a617357cb58d14764b2bbef6305aa03bb}\label{quadtree_8h_a617357cb58d14764b2bbef6305aa03bb}} 
+\index{quadtree.h@{quadtree.h}!calculate\_error@{calculate\_error}}
+\index{calculate\_error@{calculate\_error}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{calculate\_error()}{calculate\_error()}}
+{\footnotesize\ttfamily double calculate\+\_\+error (\begin{DoxyParamCaption}\item[{MLV\+\_\+\+Image $\ast$}]{image,  }\item[{int}]{x,  }\item[{int}]{y,  }\item[{int}]{size,  }\item[{MLV\+\_\+\+Color}]{avg\+\_\+color }\end{DoxyParamCaption})}
+
+
+
+Calculates the error between the actual and average colors of a region. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & The MLV image. \\
+\hline
+{\em x} & The x-\/coordinate of the top-\/left corner of the region. \\
+\hline
+{\em y} & The y-\/coordinate of the top-\/left corner of the region. \\
+\hline
+{\em size} & The size of the region (width and height). \\
+\hline
+{\em avg\+\_\+color} & The average color of the region. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The total error. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{quadtree_8h_ad1098571331055e832a1f6e547e14234}\label{quadtree_8h_ad1098571331055e832a1f6e547e14234}} 
+\index{quadtree.h@{quadtree.h}!color\_distance@{color\_distance}}
+\index{color\_distance@{color\_distance}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{color\_distance()}{color\_distance()}}
+{\footnotesize\ttfamily double color\+\_\+distance (\begin{DoxyParamCaption}\item[{MLV\+\_\+\+Color}]{c1,  }\item[{MLV\+\_\+\+Color}]{c2 }\end{DoxyParamCaption})}
+
+
+
+Computes the distance between two colors. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em c1} & The first color. \\
+\hline
+{\em c2} & The second color. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Euclidean distance between the two colors. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{quadtree_8h_a482e249f24264db206a0286a7f01243c}\label{quadtree_8h_a482e249f24264db206a0286a7f01243c}} 
+\index{quadtree.h@{quadtree.h}!create\_quadtree\_node@{create\_quadtree\_node}}
+\index{create\_quadtree\_node@{create\_quadtree\_node}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{create\_quadtree\_node()}{create\_quadtree\_node()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$ create\+\_\+quadtree\+\_\+node (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y,  }\item[{int}]{size,  }\item[{MLV\+\_\+\+Color}]{color,  }\item[{double}]{error }\end{DoxyParamCaption})}
+
+
+
+Creates a quadtree node with specified properties. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The x-\/coordinate of the top-\/left corner of the region. \\
+\hline
+{\em y} & The y-\/coordinate of the top-\/left corner of the region. \\
+\hline
+{\em size} & The size of the region (width and height). \\
+\hline
+{\em color} & The color of the node. \\
+\hline
+{\em error} & The error of the node. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the newly created \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{quadtree_8h_ab48c2faa83762792873f2c07aebd3605}\label{quadtree_8h_ab48c2faa83762792873f2c07aebd3605}} 
+\index{quadtree.h@{quadtree.h}!draw\_quadtree\_no\_loss@{draw\_quadtree\_no\_loss}}
+\index{draw\_quadtree\_no\_loss@{draw\_quadtree\_no\_loss}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{draw\_quadtree\_no\_loss()}{draw\_quadtree\_no\_loss()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$ draw\+\_\+quadtree\+\_\+no\+\_\+loss (\begin{DoxyParamCaption}\item[{MLV\+\_\+\+Image $\ast$}]{image }\end{DoxyParamCaption})}
+
+
+
+Builds and draws a quadtree without loss for the entire image. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & The MLV image. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the root of the created quadtree. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{quadtree_8h_a8fab42ccce7eca4ee587390b0b822d61}\label{quadtree_8h_a8fab42ccce7eca4ee587390b0b822d61}} 
+\index{quadtree.h@{quadtree.h}!draw\_quadtree\_with\_loss@{draw\_quadtree\_with\_loss}}
+\index{draw\_quadtree\_with\_loss@{draw\_quadtree\_with\_loss}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{draw\_quadtree\_with\_loss()}{draw\_quadtree\_with\_loss()}}
+{\footnotesize\ttfamily void draw\+\_\+quadtree\+\_\+with\+\_\+loss (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$}]{quadtree,  }\item[{MLV\+\_\+\+Image $\ast$}]{image }\end{DoxyParamCaption})}
+
+
+
+Minimizes and draws a quadtree with loss. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em quadtree} & The root of the quadtree. \\
+\hline
+{\em image} & The MLV image. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{quadtree_8h_a616eb4970d2d3500622d43ebe4f03d91}\label{quadtree_8h_a616eb4970d2d3500622d43ebe4f03d91}} 
+\index{quadtree.h@{quadtree.h}!free\_quadtree@{free\_quadtree}}
+\index{free\_quadtree@{free\_quadtree}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{free\_quadtree()}{free\_quadtree()}}
+{\footnotesize\ttfamily void free\+\_\+quadtree (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$}]{node }\end{DoxyParamCaption})}
+
+
+
+Frees the memory allocated for a quadtree. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em node} & The root of the quadtree to be freed. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{quadtree_8h_a48eeb1ce412c19c04b0bb3356ad55d49}\label{quadtree_8h_a48eeb1ce412c19c04b0bb3356ad55d49}} 
+\index{quadtree.h@{quadtree.h}!get\_file\_extension@{get\_file\_extension}}
+\index{get\_file\_extension@{get\_file\_extension}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{get\_file\_extension()}{get\_file\_extension()}}
+{\footnotesize\ttfamily const char $\ast$ get\+\_\+file\+\_\+extension (\begin{DoxyParamCaption}\item[{const char $\ast$}]{filename }\end{DoxyParamCaption})}
+
+
+
+Retrieves the file extension from a filename. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The name of the file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The file extension. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{quadtree_8h_ac17e127ef260c1760f373c03e7b1a342}\label{quadtree_8h_ac17e127ef260c1760f373c03e7b1a342}} 
+\index{quadtree.h@{quadtree.h}!load\_image\_quadtree@{load\_image\_quadtree}}
+\index{load\_image\_quadtree@{load\_image\_quadtree}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{load\_image\_quadtree()}{load\_image\_quadtree()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$ load\+\_\+image\+\_\+quadtree (\begin{DoxyParamCaption}\item[{const char $\ast$}]{filename }\end{DoxyParamCaption})}
+
+
+
+Loads a quadtree from a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The name of the file to load from. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the root of the loaded quadtree. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{quadtree_8h_a4b62dd7ad129ffd6ddd0672d37a17935}\label{quadtree_8h_a4b62dd7ad129ffd6ddd0672d37a17935}} 
+\index{quadtree.h@{quadtree.h}!load\_image\_quadtree\_bw@{load\_image\_quadtree\_bw}}
+\index{load\_image\_quadtree\_bw@{load\_image\_quadtree\_bw}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{load\_image\_quadtree\_bw()}{load\_image\_quadtree\_bw()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$ load\+\_\+image\+\_\+quadtree\+\_\+bw (\begin{DoxyParamCaption}\item[{const char $\ast$}]{filename }\end{DoxyParamCaption})}
+
+
+
+Loads a quadtree from a file in black and white. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The name of the file to load from. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the root of the loaded quadtree. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{quadtree_8h_a69d05958aa4cb2763cd29186f6bd9775}\label{quadtree_8h_a69d05958aa4cb2763cd29186f6bd9775}} 
+\index{quadtree.h@{quadtree.h}!load\_quadtree\_binary@{load\_quadtree\_binary}}
+\index{load\_quadtree\_binary@{load\_quadtree\_binary}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{load\_quadtree\_binary()}{load\_quadtree\_binary()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$ load\+\_\+quadtree\+\_\+binary (\begin{DoxyParamCaption}\item[{FILE $\ast$}]{file,  }\item[{int}]{size,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+Loads a quadtree from a binary file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & The file to load from. \\
+\hline
+{\em size} & The size of the region (width and height). \\
+\hline
+{\em x} & The x-\/coordinate of the top-\/left corner of the region. \\
+\hline
+{\em y} & The y-\/coordinate of the top-\/left corner of the region. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the root of the loaded quadtree. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{quadtree_8h_a9a33cc3e16c479d77821f60133d7b61d}\label{quadtree_8h_a9a33cc3e16c479d77821f60133d7b61d}} 
+\index{quadtree.h@{quadtree.h}!load\_quadtree\_binary\_bw@{load\_quadtree\_binary\_bw}}
+\index{load\_quadtree\_binary\_bw@{load\_quadtree\_binary\_bw}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{load\_quadtree\_binary\_bw()}{load\_quadtree\_binary\_bw()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$ load\+\_\+quadtree\+\_\+binary\+\_\+bw (\begin{DoxyParamCaption}\item[{FILE $\ast$}]{file,  }\item[{int}]{size,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+Loads a quadtree from a binary file in black and white. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & The file to load from. \\
+\hline
+{\em size} & The size of the region (width and height). \\
+\hline
+{\em x} & The x-\/coordinate of the top-\/left corner of the region. \\
+\hline
+{\em y} & The y-\/coordinate of the top-\/left corner of the region. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the root of the loaded quadtree. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{quadtree_8h_aa1b8059bc9e5b67d6df6edba6f1bbb4c}\label{quadtree_8h_aa1b8059bc9e5b67d6df6edba6f1bbb4c}} 
+\index{quadtree.h@{quadtree.h}!load\_quadtree\_graph@{load\_quadtree\_graph}}
+\index{load\_quadtree\_graph@{load\_quadtree\_graph}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{load\_quadtree\_graph()}{load\_quadtree\_graph()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$ load\+\_\+quadtree\+\_\+graph (\begin{DoxyParamCaption}\item[{FILE $\ast$}]{file }\end{DoxyParamCaption})}
+
+
+
+Loads a quadtree from a file as a graph. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & The file to load from. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the root of the loaded quadtree. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{quadtree_8h_afde47fbd2206039d0fe384779d5257e4}\label{quadtree_8h_afde47fbd2206039d0fe384779d5257e4}} 
+\index{quadtree.h@{quadtree.h}!minimize\_with\_loss@{minimize\_with\_loss}}
+\index{minimize\_with\_loss@{minimize\_with\_loss}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{minimize\_with\_loss()}{minimize\_with\_loss()}}
+{\footnotesize\ttfamily void minimize\+\_\+with\+\_\+loss (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$}]{root,  }\item[{MLV\+\_\+\+Image $\ast$}]{image }\end{DoxyParamCaption})}
+
+
+
+Minimizes the quadtree with loss, merging similar nodes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em root} & The root of the quadtree. \\
+\hline
+{\em image} & The MLV image. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{quadtree_8h_ab6594a02eb46edac2a52f3972e20beca}\label{quadtree_8h_ab6594a02eb46edac2a52f3972e20beca}} 
+\index{quadtree.h@{quadtree.h}!quadtree\_distance@{quadtree\_distance}}
+\index{quadtree\_distance@{quadtree\_distance}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{quadtree\_distance()}{quadtree\_distance()}}
+{\footnotesize\ttfamily double quadtree\+\_\+distance (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$}]{t1,  }\item[{\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$}]{t2 }\end{DoxyParamCaption})}
+
+
+
+Computes the distance between two quadtree nodes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em t1} & The first quadtree node. \\
+\hline
+{\em t2} & The second quadtree node. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The distance between the two nodes. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{quadtree_8h_a57cd1ca73ecd768fd02d6628527c003d}\label{quadtree_8h_a57cd1ca73ecd768fd02d6628527c003d}} 
+\index{quadtree.h@{quadtree.h}!save\_image\_quadtree@{save\_image\_quadtree}}
+\index{save\_image\_quadtree@{save\_image\_quadtree}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{save\_image\_quadtree()}{save\_image\_quadtree()}}
+{\footnotesize\ttfamily void save\+\_\+image\+\_\+quadtree (\begin{DoxyParamCaption}\item[{const char $\ast$}]{filename,  }\item[{\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$}]{quadtree }\end{DoxyParamCaption})}
+
+
+
+Saves a quadtree to a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The name of the file to save to. \\
+\hline
+{\em quadtree} & The root of the quadtree. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{quadtree_8h_a34316b66246532c2b19c97a53a9efed8}\label{quadtree_8h_a34316b66246532c2b19c97a53a9efed8}} 
+\index{quadtree.h@{quadtree.h}!save\_image\_quadtree\_bw@{save\_image\_quadtree\_bw}}
+\index{save\_image\_quadtree\_bw@{save\_image\_quadtree\_bw}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{save\_image\_quadtree\_bw()}{save\_image\_quadtree\_bw()}}
+{\footnotesize\ttfamily void save\+\_\+image\+\_\+quadtree\+\_\+bw (\begin{DoxyParamCaption}\item[{const char $\ast$}]{filename,  }\item[{\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$}]{quadtree }\end{DoxyParamCaption})}
+
+
+
+Saves a quadtree to a file in black and white. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The name of the file to save to. \\
+\hline
+{\em quadtree} & The root of the quadtree. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{quadtree_8h_a85a9f124219fdc58c4a489a068c1f3f6}\label{quadtree_8h_a85a9f124219fdc58c4a489a068c1f3f6}} 
+\index{quadtree.h@{quadtree.h}!save\_image\_quadtree\_graph@{save\_image\_quadtree\_graph}}
+\index{save\_image\_quadtree\_graph@{save\_image\_quadtree\_graph}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{save\_image\_quadtree\_graph()}{save\_image\_quadtree\_graph()}}
+{\footnotesize\ttfamily void save\+\_\+image\+\_\+quadtree\+\_\+graph (\begin{DoxyParamCaption}\item[{const char $\ast$}]{filename,  }\item[{\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$}]{quadtree }\end{DoxyParamCaption})}
+
+
+
+Saves a quadtree as a graph to a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The name of the file to save to. \\
+\hline
+{\em quadtree} & The root of the quadtree. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{quadtree_8h_acf1e90a452242b9145429a3bfa18eb70}\label{quadtree_8h_acf1e90a452242b9145429a3bfa18eb70}} 
+\index{quadtree.h@{quadtree.h}!save\_quadtree\_as\_graph@{save\_quadtree\_as\_graph}}
+\index{save\_quadtree\_as\_graph@{save\_quadtree\_as\_graph}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{save\_quadtree\_as\_graph()}{save\_quadtree\_as\_graph()}}
+{\footnotesize\ttfamily void save\+\_\+quadtree\+\_\+as\+\_\+graph (\begin{DoxyParamCaption}\item[{FILE $\ast$}]{file,  }\item[{\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$}]{node }\end{DoxyParamCaption})}
+
+
+
+Saves a quadtree as a graph to a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & The file to save to. \\
+\hline
+{\em node} & The root of the quadtree. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{quadtree_8h_aa8ba70c56fde64be98ed0e28fbc8d45e}\label{quadtree_8h_aa8ba70c56fde64be98ed0e28fbc8d45e}} 
+\index{quadtree.h@{quadtree.h}!save\_quadtree\_binary@{save\_quadtree\_binary}}
+\index{save\_quadtree\_binary@{save\_quadtree\_binary}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{save\_quadtree\_binary()}{save\_quadtree\_binary()}}
+{\footnotesize\ttfamily void save\+\_\+quadtree\+\_\+binary (\begin{DoxyParamCaption}\item[{FILE $\ast$}]{file,  }\item[{\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$}]{node }\end{DoxyParamCaption})}
+
+
+
+Saves a quadtree to a binary file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & The file to save to. \\
+\hline
+{\em node} & The root of the quadtree. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{quadtree_8h_a5f013b463ecbbfbdadecb668c506caf1}\label{quadtree_8h_a5f013b463ecbbfbdadecb668c506caf1}} 
+\index{quadtree.h@{quadtree.h}!save\_quadtree\_binary\_bw@{save\_quadtree\_binary\_bw}}
+\index{save\_quadtree\_binary\_bw@{save\_quadtree\_binary\_bw}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{save\_quadtree\_binary\_bw()}{save\_quadtree\_binary\_bw()}}
+{\footnotesize\ttfamily void save\+\_\+quadtree\+\_\+binary\+\_\+bw (\begin{DoxyParamCaption}\item[{FILE $\ast$}]{file,  }\item[{\mbox{\hyperlink{structQuadtreeNode}{Quadtree\+Node}} $\ast$}]{node }\end{DoxyParamCaption})}
+
+
+
+Saves a quadtree to a binary file in black and white. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & The file to save to. \\
+\hline
+{\em node} & The root of the quadtree. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{quadtree_8h_a1e043589275bb17f38de11ed9431aa94}\label{quadtree_8h_a1e043589275bb17f38de11ed9431aa94}} 
+\index{quadtree.h@{quadtree.h}!subdivide\_and\_draw@{subdivide\_and\_draw}}
+\index{subdivide\_and\_draw@{subdivide\_and\_draw}!quadtree.h@{quadtree.h}}
+\doxysubsubsection{\texorpdfstring{subdivide\_and\_draw()}{subdivide\_and\_draw()}}
+{\footnotesize\ttfamily void subdivide\+\_\+and\+\_\+draw (\begin{DoxyParamCaption}\item[{MLV\+\_\+\+Image $\ast$}]{image,  }\item[{\mbox{\hyperlink{structMaxHeap}{Max\+Heap}} $\ast$}]{heap }\end{DoxyParamCaption})}
+
+
+
+Subdivides a quadtree node and draws the quadtree. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & The MLV image. \\
+\hline
+{\em heap} & The max-\/heap used to manage quadtree nodes. \\
+\hline
+\end{DoxyParams}
