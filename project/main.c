@@ -176,28 +176,34 @@ double quadtree_distance(QuadtreeNode* t1, QuadtreeNode* t2) {
 void minimize_with_loss(QuadtreeNode* root, MLV_Image *image) {
     if (!root) return;
 
-    // Recursively minimize all children first
     for (int i = 0; i < 4; i++) {
         if (root->children[i]) {
             minimize_with_loss(root->children[i], image);
         }
     }
 
-    // Compare each pair of children to find the closest pair
+    double min_distance = INFINITY;
+    int merge_index1 = -1, merge_index2 = -1;
+
     for (int i = 0; i < 4; i++) {
         for (int j = i + 1; j < 4; j++) {
             if (root->children[i] && root->children[j]) {
                 double distance = quadtree_distance(root->children[i], root->children[j]);
-                // Merge the children if they are close enough
-                if (distance < 25.0) { // Using a threshold for the color distance
-                    free_quadtree(root->children[j]);
-                    root->children[j] = NULL;
-                    root->color = average_color(image, root->x, root->y, root->size);
-                    root->error = 0.0;
-                    printf("Minimized node at (%d, %d) with size %d\n", root->x, root->y, root->size);
+                if (distance < min_distance) {
+                    min_distance = distance;
+                    merge_index1 = i;
+                    merge_index2 = j;
                 }
             }
         }
+    }
+
+    if (merge_index1 != -1 && merge_index2 != -1 && min_distance < 25.0) { // Adjust threshold as needed
+        free_quadtree(root->children[merge_index2]);
+        root->children[merge_index2] = NULL;
+        root->color = average_color(image, root->x, root->y, root->size);
+        root->error = 0.0;
+        printf("Minimized node at (%d, %d) with size %d\n", root->x, root->y, root->size);
     }
 }
 
@@ -276,7 +282,6 @@ const char* get_file_extension(const char *filename) {
     if(!dot || dot == filename) return "";
     return dot + 1;
 }
-
 
 void save_image_quadtree(const char *filename, QuadtreeNode *quadtree) {
     FILE *file = fopen(filename, "wb");
