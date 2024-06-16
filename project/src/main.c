@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <string.h>
 #include <MLV/MLV_all.h>
 
 #define IMAGE_SIZE 512
@@ -12,7 +11,7 @@ typedef struct QuadtreeNode {
     MLV_Color color;
     double error;
     struct QuadtreeNode *children[4];
-    int id;
+    int id; // Added to store unique id for graph nodes
 } QuadtreeNode;
 
 typedef struct {
@@ -104,7 +103,7 @@ double calculate_error(MLV_Image *image, int x, int y, int size, MLV_Color avg_c
     MLV_convert_color_to_rgba(avg_color, &ar, &ag, &ab, &aa);
 
     for (int i = x; i < x + size; i++) {
-        for (int j = y; j < y + size; j++) {
+        for        (int j = y; j < y + size; j++) {
             int pr, pg, pb, pa;
             MLV_get_pixel_on_image(image, i, j, &pr, &pg, &pb, &pa);
 
@@ -201,7 +200,7 @@ void minimize_with_loss(QuadtreeNode* root, MLV_Image *image) {
         }
     }
 
-    if (merge_index1 != -1 && merge_index2 != -1 && min_distance < 75.0) { // Adjust threshold as needed
+    if (merge_index1 != -1 && merge_index2 != -1 && min_distance < 25.0) { // Adjust threshold as needed
         free_quadtree(root->children[merge_index2]);
         root->children[merge_index2] = NULL;
         root->color = average_color(image, root->x, root->y, root->size);
@@ -448,6 +447,113 @@ int handle_button_click(int x, int y) {
     return 0;
 }
 
+void assign_ids(QuadtreeNode *node, int *current_id) {
+    if (!node) return;
+
+    if (node->children[0] == NULL) {
+        node->id = (*current_id)++;
+    } else {
+        node->id = (*current_id)++;
+        for (int i = 0; i < 4; i++) {
+            assign_ids(node->children[i], current_id);
+        }
+    }
+}
+
+// Fonctions pour extraire les composantes de couleur
+Uint8 MLV_get_red(MLV_Color color) {
+    Uint8 r, g, b, a;
+    MLV_convert_color_to_rgba(color, &r, &g, &b, &a);
+    return r;
+}
+
+Uint8 MLV_get_green(MLV_Color color) {
+    Uint8 r, g, b, a;
+    MLV_convert_color_to_rgba(color, &r, &g, &b, &a);
+    return g;
+}
+
+Uint8 MLV_get_blue(MLV_Color color) {
+    Uint8 r, g, b, a;
+    MLV_convert_color_to_rgba(color, &r, &g, &b, &a);
+    return b;
+}
+
+Uint8 MLV_get_alpha(MLV_Color color) {
+    Uint8 r, g, b, a;
+    MLV_convert_color_to_rgba(color, &r, &g, &b, &a);
+    return a;
+}
+
+// Fonction pour sauvegarder le quadtree en tant que graphe minimisé
+void save_quadtree_as_graph(FILE *file, QuadtreeNode *node) {
+    if (!node) return;
+    
+    if (node->children[0] == NULL) {
+        // Leaf node
+        fprintf(file, "%df %d %d %d %d\n", node->id, MLV_get_red(node->color), MLV_get_green(node->color), MLV_get_blue(node->color), MLV_get_alpha(node->color));
+    } else {
+        // Internal node
+        fprintf(file, "%d %d %d %d %d\n", node->id, node->children[0] ? node->children[0]->id : -1,
+                                           node->children[1] ? node->children[1]->id : -1,
+                                           node->children[2] ? node->children[2]->id : -1,
+                                           node->children[3] ? node->children[3]->id : -1);
+        for (int i = 0; i < 4; i++) {
+            save_quadtree_as_graph(file, node->children[i]);
+        }
+    }
+}
+
+
+void save_image_quadtree_graph(const char *filename, QuadtreeNode *quadtree) {
+    FILE *file = fopen(filename, "w");
+    if (!file) {
+        fprintf(stderr, "Could not open file for writing: %s\n", filename);
+        return;
+    }
+    int current_id = 0;
+    assign_ids(quadtree, &current_id);
+    save_quadtree_as_graph(file, quadtree);
+    fclose(file);
+}
+
+QuadtreeNode* load_quadtree_graph(FILE *file) {
+    int id, c0, c1, c2, c3;
+    int capacity = 10000;
+    QuadtreeNode** nodes = (QuadtreeNode**)malloc(capacity * sizeof(QuadtreeNode*));
+    int node_count = 0;
+
+    while (fscanf(file, "%d", &id) != EOF) {
+        if (id >= capacity) {
+            capacity *= 2;
+            nodes = (QuadtreeNode**)realloc(nodes, capacity * sizeof(QuadtreeNode*));
+        }
+        
+        char c;
+        fscanf(file, "%c", &c);
+        if (c == 'f') {
+            int r, g, b, a;
+            fscanf(file, "%d %d %d %d", &r, &g, &b, &a);
+            nodes[id] = create_quadtree_node(0, 0, 0, MLV_rgba(r, g, b, a), 0.0);
+        } else {
+            ungetc(c, file);
+            fscanf(file, "%d %d %d %d", &c0, &c1, &c2, &c3);
+            nodes[id] = create_quadtree_node(0, 0, 0, MLV_COLOR_BLACK, 0.0);
+            nodes[id]->children[0] = c0 == -1 ? NULL : nodes[c0];
+            nodes[id]->children[1] = c1 == -1 ? NULL : nodes[c1];
+            nodes[id]->children[2] = c2 == -1 ? NULL : nodes[c2];
+            nodes[id]->children[3] = c3 == -1 ? NULL : nodes[c3];
+        }
+        nodes[id]->id = id;
+        node_count++;
+    }
+
+    QuadtreeNode* root = nodes[0];
+    free(nodes);
+    return root;
+}
+
+
 int main(int argc, char *argv[]) {
     if (argc != 2) {
         printf("Usage: %s <image_file>\n", argv[0]);
@@ -499,15 +605,15 @@ int main(int argc, char *argv[]) {
             case 5:
                 if (quadtree) {
                     char file_path[MAX_FILENAME_LENGTH];
-                    snprintf(file_path, sizeof(file_path), "minimized_quadtree.qtn");
-                    save_image_quadtree_bw(file_path, quadtree);
+                    snprintf(file_path, sizeof(file_path), "minimized_quadtree.gmn");
+                    save_image_quadtree_graph(file_path, quadtree);
                 }
                 break;
             case 6:
                 if (quadtree) {
                     char file_path[MAX_FILENAME_LENGTH];
-                    snprintf(file_path, sizeof(file_path), "minimized_quadtree.qtc");
-                    save_image_quadtree(file_path, quadtree);
+                    snprintf(file_path, sizeof(file_path), "minimized_quadtree.gmc");
+                    save_image_quadtree_graph(file_path, quadtree);
                 }
                 break;
             case 7:
@@ -529,6 +635,18 @@ int main(int argc, char *argv[]) {
                         if (quadtree) {
                             MLV_clear_window(MLV_COLOR_BLACK);
                             draw_entire_quadtree(quadtree);
+                        }
+                    } else if (strcmp(ext, "gmn") == 0 || strcmp(ext, "gmc") == 0) {
+                        FILE *file = fopen(image_name, "r");
+                        if (file) {
+                            quadtree = load_quadtree_graph(file);
+                            fclose(file);
+                            if (quadtree) {
+                                MLV_clear_window(MLV_COLOR_BLACK);
+                                draw_entire_quadtree(quadtree);
+                            }
+                        } else {
+                            printf("Could not open file %s\n", image_name);
                         }
                     } else {
                         MLV_Image *new_image = MLV_load_image(image_name);
@@ -555,3 +673,4 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
+
