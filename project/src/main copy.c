@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <string.h>
 #include <MLV/MLV_all.h>
 
 #define IMAGE_SIZE 512
@@ -12,7 +11,6 @@ typedef struct QuadtreeNode {
     MLV_Color color;
     double error;
     struct QuadtreeNode *children[4];
-    int id;
 } QuadtreeNode;
 
 typedef struct {
@@ -125,7 +123,6 @@ QuadtreeNode* create_quadtree_node(int x, int y, int size, MLV_Color color, doub
     node->size = size;
     node->color = color;
     node->error = error;
-    node->id = -1; // Initialize id to -1
     for (int i = 0; i < 4; i++) {
         node->children[i] = NULL;
     }
@@ -179,34 +176,28 @@ double quadtree_distance(QuadtreeNode* t1, QuadtreeNode* t2) {
 void minimize_with_loss(QuadtreeNode* root, MLV_Image *image) {
     if (!root) return;
 
+    // Recursively minimize all children first
     for (int i = 0; i < 4; i++) {
         if (root->children[i]) {
             minimize_with_loss(root->children[i], image);
         }
     }
 
-    double min_distance = INFINITY;
-    int merge_index1 = -1, merge_index2 = -1;
-
+    // Compare each pair of children to find the closest pair
     for (int i = 0; i < 4; i++) {
         for (int j = i + 1; j < 4; j++) {
             if (root->children[i] && root->children[j]) {
                 double distance = quadtree_distance(root->children[i], root->children[j]);
-                if (distance < min_distance) {
-                    min_distance = distance;
-                    merge_index1 = i;
-                    merge_index2 = j;
+                // Merge the children if they are close enough
+                if (distance < 25.0) { // Using a threshold for the color distance
+                    free_quadtree(root->children[j]);
+                    root->children[j] = NULL;
+                    root->color = average_color(image, root->x, root->y, root->size);
+                    root->error = 0.0;
+                    printf("Minimized node at (%d, %d) with size %d\n", root->x, root->y, root->size);
                 }
             }
         }
-    }
-
-    if (merge_index1 != -1 && merge_index2 != -1 && min_distance < 75.0) { // Adjust threshold as needed
-        free_quadtree(root->children[merge_index2]);
-        root->children[merge_index2] = NULL;
-        root->color = average_color(image, root->x, root->y, root->size);
-        root->error = 0.0;
-        printf("Minimized node at (%d, %d) with size %d\n", root->x, root->y, root->size);
     }
 }
 
@@ -275,7 +266,44 @@ void save_quadtree_binary(FILE *file, QuadtreeNode *node) {
         int is_leaf = 0;
         fwrite(&is_leaf, sizeof(int), 1, file);
         for (int i = 0; i < 4; i++) {
-            save_quadtree_binary(file, node->children[i]);
+            if (node->children[i]) {
+                save_quadtree_binary(file, node->children[i]);
+            } else {
+                // Write a placeholder for null children
+                is_leaf = 1;
+                fwrite(&is_leaf, sizeof(int), 1, file);
+                Uint8 placeholder_color = 0;
+                fwrite(&placeholder_color, sizeof(Uint8), 4, file);
+            }
+        }
+    }
+}
+
+void save_quadtree_binary_bw(FILE *file, QuadtreeNode *node) {
+    if (!node) return;
+
+    if (node->children[0] == NULL) {
+        // Leaf node
+        int is_leaf = 1;
+        fwrite(&is_leaf, sizeof(int), 1, file);
+        Uint8 r, g, b, a;
+        MLV_convert_color_to_rgba(node->color, &r, &g, &b, &a);
+        Uint8 gray = (r + g + b) / 3;
+        fwrite(&gray, sizeof(Uint8), 1, file);
+    } else {
+        // Internal node
+        int is_leaf = 0;
+        fwrite(&is_leaf, sizeof(int), 1, file);
+        for (int i = 0; i < 4; i++) {
+            if (node->children[i]) {
+                save_quadtree_binary_bw(file, node->children[i]);
+            } else {
+                // Write a placeholder for null children
+                is_leaf = 1;
+                fwrite(&is_leaf, sizeof(int), 1, file);
+                Uint8 placeholder_color = 0;
+                fwrite(&placeholder_color, sizeof(Uint8), 1, file);
+            }
         }
     }
 }
@@ -293,6 +321,16 @@ void save_image_quadtree(const char *filename, QuadtreeNode *quadtree) {
         return;
     }
     save_quadtree_binary(file, quadtree);
+    fclose(file);
+}
+
+void save_image_quadtree_bw(const char *filename, QuadtreeNode *quadtree) {
+    FILE *file = fopen(filename, "wb");
+    if (!file) {
+        fprintf(stderr, "Could not open file for writing: %s\n", filename);
+        return;
+    }
+    save_quadtree_binary_bw(file, quadtree);
     fclose(file);
 }
 
@@ -315,54 +353,11 @@ QuadtreeNode* load_quadtree_binary(FILE *file, int size, int x, int y) {
         // Internal node
         QuadtreeNode *node = create_quadtree_node(x, y, size, MLV_COLOR_BLACK, 0.0);
         int half_size = size / 2;
-        node->children[0] = load_quadtree_binary(file, half_size, x, y);
-        node->children[1] = load_quadtree_binary(file, half_size, x + half_size, y);
-        node->children[2] = load_quadtree_binary(file, half_size, x, y + half_size);
-        node->children[3] = load_quadtree_binary(file, half_size, x + half_size, y + half_size);
+        for (int i = 0; i < 4; i++) {
+            node->children[i] = load_quadtree_binary(file, half_size, x + (i % 2) * half_size, y + (i / 2) * half_size);
+        }
         return node;
     }
-}
-
-QuadtreeNode* load_image_quadtree(const char *filename) {
-    FILE *file = fopen(filename, "rb");
-    if (!file) {
-        fprintf(stderr, "Could not open file for reading: %s\n", filename);
-        return NULL;
-    }
-    QuadtreeNode *quadtree = load_quadtree_binary(file, IMAGE_SIZE, 0, 0);
-    fclose(file);
-    return quadtree;
-}
-
-void save_quadtree_binary_bw(FILE *file, QuadtreeNode *node) {
-    if (!node) return;
-
-    if (node->children[0] == NULL) {
-        // Leaf node
-        int is_leaf = 1;
-        fwrite(&is_leaf, sizeof(int), 1, file);
-        Uint8 r, g, b, a;
-        MLV_convert_color_to_rgba(node->color, &r, &g, &b, &a);
-        Uint8 gray = (r + g + b) / 3;
-        fwrite(&gray, sizeof(Uint8), 1, file);
-    } else {
-        // Internal node
-        int is_leaf = 0;
-        fwrite(&is_leaf, sizeof(int), 1, file);
-        for (int i = 0; i < 4; i++) {
-            save_quadtree_binary_bw(file, node->children[i]);
-        }
-    }
-}
-
-void save_image_quadtree_bw(const char *filename, QuadtreeNode *quadtree) {
-    FILE *file = fopen(filename, "wb");
-    if (!file) {
-        fprintf(stderr, "Could not open file for writing: %s\n", filename);
-        return;
-    }
-    save_quadtree_binary_bw(file, quadtree);
-    fclose(file);
 }
 
 QuadtreeNode* load_quadtree_binary_bw(FILE *file, int size, int x, int y) {
@@ -381,12 +376,22 @@ QuadtreeNode* load_quadtree_binary_bw(FILE *file, int size, int x, int y) {
         // Internal node
         QuadtreeNode *node = create_quadtree_node(x, y, size, MLV_COLOR_BLACK, 0.0);
         int half_size = size / 2;
-        node->children[0] = load_quadtree_binary_bw(file, half_size, x, y);
-        node->children[1] = load_quadtree_binary_bw(file, half_size, x + half_size, y);
-        node->children[2] = load_quadtree_binary_bw(file, half_size, x, y + half_size);
-        node->children[3] = load_quadtree_binary_bw(file, half_size, x + half_size, y + half_size);
+        for (int i = 0; i < 4; i++) {
+            node->children[i] = load_quadtree_binary_bw(file, half_size, x + (i % 2) * half_size, y + (i / 2) * half_size);
+        }
         return node;
     }
+}
+
+QuadtreeNode* load_image_quadtree(const char *filename) {
+    FILE *file = fopen(filename, "rb");
+    if (!file) {
+        fprintf(stderr, "Could not open file for reading: %s\n", filename);
+        return NULL;
+    }
+    QuadtreeNode *quadtree = load_quadtree_binary(file, IMAGE_SIZE, 0, 0);
+    fclose(file);
+    return quadtree;
 }
 
 QuadtreeNode* load_image_quadtree_bw(const char *filename) {
