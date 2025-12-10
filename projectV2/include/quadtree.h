@@ -2,8 +2,7 @@
 #define QUADTREE_H
 
 #include <MLV/MLV_all.h>
-
-#define IMAGE_SIZE 512
+#include "config.h"
 
 typedef struct QuadtreeNode {
     int x, y, size;

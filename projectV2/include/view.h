@@ -7,9 +7,5 @@ void draw_quadtree(QuadtreeNode *node);
 void draw_entire_quadtree(QuadtreeNode *node);
 void draw_buttons();
 int handle_button_click(int x, int y);
-Uint8 MLV_get_red(MLV_Color color);
-Uint8 MLV_get_green(MLV_Color color);
-Uint8 MLV_get_blue(MLV_Color color);
-Uint8 MLV_get_alpha(MLV_Color color);
 
 #endif // VIEW_H

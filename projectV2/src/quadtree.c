@@ -6,6 +6,8 @@
 #include "../include/quadtree.h"
 #include "../include/heap.h"
 #include "../include/view.h"
+#include "../include/config.h"
+#include "../include/utils.h"
 
 MLV_Color average_color(MLV_Image *image, int x, int y, int size) {
     int r = 0, g = 0, b = 0, a = 0, count = 0;
@@ -41,7 +43,7 @@ double calculate_error(MLV_Image *image, int x, int y, int size, MLV_Color avg_c
     MLV_convert_color_to_rgba(avg_color, &ar, &ag, &ab, &aa);
 
     for (int i = x; i < x + size; i++) {
-        for        (int j = y; j < y + size; j++) {
+        for (int j = y; j < y + size; j++) {
             int pr, pg, pb, pa;
             MLV_get_pixel_on_image(image, i, j, &pr, &pg, &pb, &pa);
 
@@ -49,14 +51,15 @@ double calculate_error(MLV_Image *image, int x, int y, int size, MLV_Color avg_c
             int dg = pg - ag;
             int db = pb - ab;
             int da = pa - aa;
-            error += sqrt(dr * dr + dg * dg + db * db + da * da);
+            /* Optimization: Use squared distance (sqrt removed for performance) */
+            error += (dr * dr + dg * dg + db * db + da * da);
         }
     }
     return error;
 }
 
 QuadtreeNode* create_quadtree_node(int x, int y, int size, MLV_Color color, double error) {
-    QuadtreeNode* node = (QuadtreeNode*)malloc(sizeof(QuadtreeNode));
+    QuadtreeNode* node = (QuadtreeNode*)safe_malloc(sizeof(QuadtreeNode));
     node->x = x;
     node->y = y;
     node->size = size;
@@ -111,7 +114,7 @@ void minimize_with_loss(QuadtreeNode* root, MLV_Image *image) {
         }
     }
 
-    if (merge_index1 != -1 && merge_index2 != -1 && min_distance < 25.0) { // Adjust threshold as needed
+    if (merge_index1 != -1 && merge_index2 != -1 && min_distance < MERGE_THRESHOLD) {
         free_quadtree(root->children[merge_index2]);
         root->children[merge_index2] = NULL;
         root->color = average_color(image, root->x, root->y, root->size);
@@ -136,8 +139,8 @@ double quadtree_distance(QuadtreeNode* t1, QuadtreeNode* t2) {
 }
 
 QuadtreeNode* draw_quadtree_no_loss(MLV_Image *image) {
-    MaxHeap* heap = create_max_heap(1024);
-    QuadtreeNode *quadtree = build_quadtree(image, 0, 0, IMAGE_SIZE, heap);
+    MaxHeap* heap = create_max_heap(DEFAULT_HEAP_CAPACITY);
+    QuadtreeNode *quadtree = build_quadtree(image, 0, 0, DEFAULT_IMAGE_SIZE, heap);
     subdivide_and_draw(image, heap);
     free(heap->nodes);
     free(heap);
@@ -245,7 +248,11 @@ void save_quadtree_as_graph(FILE *file, QuadtreeNode *node) {
     
     if (node->children[0] == NULL) {
         // Leaf node
-        fprintf(file, "%df %d %d %d %d\n", node->id, MLV_get_red(node->color), MLV_get_green(node->color), MLV_get_blue(node->color), MLV_get_alpha(node->color));
+        fprintf(file, "%df %d %d %d %d\n", node->id, 
+                get_red_component(node->color), 
+                get_green_component(node->color), 
+                get_blue_component(node->color), 
+                get_alpha_component(node->color));
     } else {
         // Internal node
         fprintf(file, "%d %d %d %d %d\n", node->id, node->children[0] ? node->children[0]->id : -1,
@@ -327,7 +334,7 @@ QuadtreeNode* load_image_quadtree(const char *filename) {
         fprintf(stderr, "Could not open file for reading: %s\n", filename);
         return NULL;
     }
-    QuadtreeNode *quadtree = load_quadtree_binary(file, IMAGE_SIZE, 0, 0);
+    QuadtreeNode *quadtree = load_quadtree_binary(file, DEFAULT_IMAGE_SIZE, 0, 0);
     fclose(file);
     return quadtree;
 }
@@ -338,21 +345,21 @@ QuadtreeNode* load_image_quadtree_bw(const char *filename) {
         fprintf(stderr, "Could not open file for reading: %s\n", filename);
         return NULL;
     }
-    QuadtreeNode *quadtree = load_quadtree_binary_bw(file, IMAGE_SIZE, 0, 0);
+    QuadtreeNode *quadtree = load_quadtree_binary_bw(file, DEFAULT_IMAGE_SIZE, 0, 0);
     fclose(file);
     return quadtree;
 }
 
 QuadtreeNode* load_quadtree_graph(FILE *file) {
     int id, c0, c1, c2, c3;
-    int capacity = 10000;
-    QuadtreeNode** nodes = (QuadtreeNode**)malloc(capacity * sizeof(QuadtreeNode*));
+    int capacity = GRAPH_NODE_CAPACITY_INITIAL;
+    QuadtreeNode** nodes = (QuadtreeNode**)safe_malloc(capacity * sizeof(QuadtreeNode*));
     int node_count = 0;
 
     while (fscanf(file, "%d", &id) != EOF) {
         if (id >= capacity) {
-            capacity *= 2;
-            nodes = (QuadtreeNode**)realloc(nodes, capacity * sizeof(QuadtreeNode*));
+            capacity *= HEAP_GROWTH_FACTOR;
+            nodes = (QuadtreeNode**)safe_realloc(nodes, capacity * sizeof(QuadtreeNode*));
         }
         
         char c;

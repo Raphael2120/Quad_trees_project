@@ -1,6 +1,7 @@
 
 #include <MLV/MLV_all.h>
 #include "../include/view.h"
+#include "../include/config.h"
 
 void draw_quadtree(QuadtreeNode *node) {
     if (!node) return;
@@ -16,11 +17,11 @@ void draw_entire_quadtree(QuadtreeNode *node) {
 }
 
 void draw_buttons() {
-    int button_width = 300;
-    int button_height = 30;
-    int padding = 10;
-    int window_width = 845;
-    int window_height = IMAGE_SIZE;
+    int button_width = BUTTON_WIDTH;
+    int button_height = BUTTON_HEIGHT;
+    int padding = BUTTON_PADDING;
+    int window_width = WINDOW_WIDTH - 15; /* Adjust for actual window size */
+    int window_height = DEFAULT_IMAGE_SIZE;
 
     int x = window_width - button_width - padding;
     int y = (window_height / 2) - (7 * button_height / 2) - (7 * padding / 2);
@@ -43,11 +44,11 @@ void draw_buttons() {
 }
 
 int handle_button_click(int x, int y) {
-    int button_width = 300;
-    int button_height = 30;
-    int padding = 10;
-    int window_width = 845;
-    int window_height = IMAGE_SIZE;
+    int button_width = BUTTON_WIDTH;
+    int button_height = BUTTON_HEIGHT;
+    int padding = BUTTON_PADDING;
+    int window_width = WINDOW_WIDTH - 15; /* Adjust for actual window size */
+    int window_height = DEFAULT_IMAGE_SIZE;
 
     int bx = window_width - button_width - padding;
     int by = (window_height / 2) - (7 * button_height / 2) - (7 * padding / 2);
@@ -69,26 +70,4 @@ int handle_button_click(int x, int y) {
     return 0;
 }
 
-Uint8 MLV_get_red(MLV_Color color) {
-    Uint8 r, g, b, a;
-    MLV_convert_color_to_rgba(color, &r, &g, &b, &a);
-    return r;
-}
-
-Uint8 MLV_get_green(MLV_Color color) {
-    Uint8 r, g, b, a;
-    MLV_convert_color_to_rgba(color, &r, &g, &b, &a);
-    return g;
-}
-
-Uint8 MLV_get_blue(MLV_Color color) {
-    Uint8 r, g, b, a;
-    MLV_convert_color_to_rgba(color, &r, &g, &b, &a);
-    return b;
-}
-
-Uint8 MLV_get_alpha(MLV_Color color) {
-    Uint8 r, g, b, a;
-    MLV_convert_color_to_rgba(color, &r, &g, &b, &a);
-    return a;
-}
+/* Color extraction functions moved to utils.c */

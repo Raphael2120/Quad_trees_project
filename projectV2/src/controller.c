@@ -2,6 +2,8 @@
 #include "../include/controller.h"
 #include "../include/quadtree.h"
 #include "../include/heap.h"
+#include "../include/config.h"
+#include "../include/utils.h"
 
 #include <MLV/MLV_all.h>
 
@@ -25,14 +27,14 @@ void run_application(MLV_Image *image) {
             case 2:
                 if (quadtree) {
                     char file_path[MAX_FILENAME_LENGTH];
-                    snprintf(file_path, sizeof(file_path), "img/output/quadtree.qtn");
+                    snprintf(file_path, sizeof(file_path), OUTPUT_DIR "quadtree.qtn");
                     save_image_quadtree_bw(file_path, quadtree);
                 }
                 break;
             case 3:
                 if (quadtree) {
                     char file_path[MAX_FILENAME_LENGTH];
-                    snprintf(file_path, sizeof(file_path), "img/output/quadtree.qtc");
+                    snprintf(file_path, sizeof(file_path), OUTPUT_DIR "quadtree.qtc");
                     save_image_quadtree(file_path, quadtree);
                 }
                 break;
@@ -44,14 +46,14 @@ void run_application(MLV_Image *image) {
             case 5:
                 if (quadtree) {
                     char file_path[MAX_FILENAME_LENGTH];
-                    snprintf(file_path, sizeof(file_path), "img/output/minimized_quadtree.qtn");
+                    snprintf(file_path, sizeof(file_path), OUTPUT_DIR "minimized_quadtree.qtn");
                     save_image_quadtree_bw(file_path, quadtree);
                 }
                 break;
             case 6:
                 if (quadtree) {
                     char file_path[MAX_FILENAME_LENGTH];
-                    snprintf(file_path, sizeof(file_path), "img/output/minimized_quadtree.qtc");
+                    snprintf(file_path, sizeof(file_path), OUTPUT_DIR "minimized_quadtree.qtc");
                     save_image_quadtree(file_path, quadtree);
                 }
                 break;
@@ -60,6 +62,12 @@ void run_application(MLV_Image *image) {
                     char image_name[MAX_FILENAME_LENGTH];
                     printf("Enter the image filename: ");
                     scanf("%s", image_name);
+                    
+                    /* Validate file before attempting to load */
+                    if (!validate_quadtree_file(image_name)) {
+                        printf("Error: Invalid or inaccessible file: %s\n", image_name);
+                        break;
+                    }
                     
                     const char* ext = get_file_extension(image_name);
 
@@ -78,7 +86,7 @@ void run_application(MLV_Image *image) {
                     } else {
                         MLV_Image *new_image = MLV_load_image(image_name);
                         if (new_image) {
-                            MLV_resize_image(new_image, IMAGE_SIZE, IMAGE_SIZE);
+                            MLV_resize_image(new_image, DEFAULT_IMAGE_SIZE, DEFAULT_IMAGE_SIZE);
                             MLV_clear_window(MLV_COLOR_BLACK);
                             MLV_draw_image(new_image, 0, 0);
                             MLV_actualise_window();

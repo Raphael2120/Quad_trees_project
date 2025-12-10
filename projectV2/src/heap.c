@@ -5,10 +5,12 @@
 
 #include "../include/quadtree.h"
 #include "../include/heap.h"
+#include "../include/config.h"
+#include "../include/utils.h"
 
 MaxHeap* create_max_heap(int capacity) {
-    MaxHeap* heap = (MaxHeap*)malloc(sizeof(MaxHeap));
-    heap->nodes = (QuadtreeNode**)malloc(sizeof(QuadtreeNode*) * capacity);
+    MaxHeap* heap = (MaxHeap*)safe_malloc(sizeof(MaxHeap));
+    heap->nodes = (QuadtreeNode**)safe_malloc(sizeof(QuadtreeNode*) * capacity);
     heap->size = 0;
     heap->capacity = capacity;
     return heap;
@@ -39,8 +41,8 @@ void max_heapify(MaxHeap* heap, int idx) {
 
 void insert_max_heap(MaxHeap* heap, QuadtreeNode* node) {
     if (heap->size == heap->capacity) {
-        heap->capacity *= 2;
-        heap->nodes = (QuadtreeNode**)realloc(heap->nodes, heap->capacity * sizeof(QuadtreeNode*));
+        heap->capacity *= HEAP_GROWTH_FACTOR;
+        heap->nodes = (QuadtreeNode**)safe_realloc(heap->nodes, heap->capacity * sizeof(QuadtreeNode*));
     }
     heap->nodes[heap->size] = node;
     int i = heap->size;
