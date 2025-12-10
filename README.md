@@ -67,13 +67,70 @@ projectV2/
 
 ### Prérequis
 
-- **Compilateur GCC**
-- **Bibliothèque MLV** (MultiMedia Library for Various purposes)
+- **Compilateur GCC** et outils de compilation
   ```bash
-  sudo apt-get install libmlv3-dev  # Debian/Ubuntu
+  sudo apt-get install build-essential
   ```
 
+- **Bibliothèque MLV** (MultiMedia Library for Various purposes)
+
+#### Installation de MLV sur Debian/Ubuntu
+
+1. **Installer les dépendances SDL**:
+   ```bash
+   sudo apt-get install libsdl-gfx1.2-dev libsdl1.2-dev libsdl-mixer1.2-dev
+   sudo apt-get install libsdl-ttf2.0-dev libglib2.0-dev libxml2-dev
+   sudo apt-get install libsdl-image1.2-dev
+   ```
+
+2. **Télécharger et installer MLV**:
+   
+   Téléchargez les paquets depuis [le site officiel MLV](http://www-igm.univ-mlv.fr/~boussica/mlv/api/French/html/download.html):
+   - `libmlv0_2.0.2-1_amd64.deb`
+   - `libmlv0-dev_2.0.2-1_amd64.deb`
+   
+   Puis installez:
+   ```bash
+   sudo dpkg -i libmlv0_2.0.2-1_amd64.deb libmlv0-dev_2.0.2-1_amd64.deb
+   ```
+   
+   *Note: Pour systèmes 32 bits, utilisez les paquets `_i386.deb`*
+
+#### Installation sur Fedora
+
+```bash
+sudo yum update
+sudo rpm --import RPM-GPG-KEY-Boussicault
+sudo yum install mlv-2.0.2-0.fc22.x86_64.rpm
+sudo yum install mlv-devel-2.0.2-0.fc22.x86_64.rpm
+sudo yum install mlv-static-2.0.2-0.fc22.x86_64.rpm
+```
+
+#### Installation depuis le code source
+
+1. **Installer les dépendances**:
+   ```bash
+   # Outils de compilation
+   sudo apt-get install gcc libtool make autoconf doxygen
+   
+   # Bibliothèques SDL
+   sudo apt-get install libsdl1.2-dev libsdl-gfx1.2-dev libsdl-mixer1.2-dev
+   sudo apt-get install libsdl-ttf2.0-dev libglib2.0-dev libxml2-dev
+   ```
+
+2. **Télécharger et compiler MLV**:
+   ```bash
+   # Télécharger mlv-2.0.2.tar.gz depuis le site officiel
+   tar -xzf mlv-2.0.2.tar.gz
+   cd mlv-2.0.2
+   ./configure --prefix=/usr
+   make
+   sudo make install
+   ```
+
 ### Compilation
+
+#### Méthode 1: Avec Make (recommandé)
 
 ```bash
 cd projectV2
@@ -81,6 +138,20 @@ make
 ```
 
 L'exécutable sera généré dans `bin/quadtree`.
+
+#### Méthode 2: Avec GCC directement
+
+Si vous préférez compiler manuellement avec gcc:
+
+```bash
+gcc -Wall `pkg-config --cflags MLV` \
+    `pkg-config --libs-only-other --libs-only-L MLV` \
+    src/*.c \
+    `pkg-config --libs-only-l MLV` \
+    -o bin/quadtree
+```
+
+Le Makefile fourni utilise automatiquement `pkg-config` pour détecter MLV.
 
 ## 🎮 Utilisation
 
