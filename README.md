@@ -211,8 +211,8 @@ Le projet a bénéficié d'une refonte majeure pour améliorer qualité, perform
 ## 🌿 Branches
 
 - **main** : Branche principale (stable)
-- **PH_test** : Développement principal avec architecture MVC complète
-- **Raph_test** : PH_test + Documentation Doxygen
+- **PH_test** : Développement avec architecture MVC (contributions PH et Raphael)
+- **Raph_test** : PH_test + Documentation Doxygen par Raphael
 - **test-coderabbit** : Tests d'intégration CodeRabbit
 
 ## 📚 Documentation
@@ -266,9 +266,9 @@ Projet universitaire - Utilisation libre pour l'apprentissage.
 
 ## 👥 Auteurs
 
-- **PH** : Développement principal, architecture MVC
-- **Raphael** : Documentation Doxygen, améliorations qualité
-- Contributions : Optimisations performance et refactoring (Décembre 2025)
+- **Raphael (Raphael2120)** : Architecture MVC, développement principal, optimisations
+- **PH** : Développement, contributions au code
+- Améliorations récentes : Refactoring qualité, performance, documentation (Décembre 2025)
 
 ## 🐛 Problèmes Connus
 
